@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using UnityEngine;
 
 public class T4_PlayerMovement : MonoBehaviour
@@ -12,7 +13,8 @@ public class T4_PlayerMovement : MonoBehaviour
     int dashVert;
     int dashHor;
     float test = 0f;
-
+    bool testB = false;
+    bool hasHit = false;
 
     void Start()
     {
@@ -54,6 +56,10 @@ public class T4_PlayerMovement : MonoBehaviour
 
         }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            testB = true;
+        }
 
         
     }
@@ -77,7 +83,7 @@ public class T4_PlayerMovement : MonoBehaviour
             rb.angularVelocity = new Vector3(0, 0, 0);
         }
 
-        if (dashVert != 0 || dashHor != 0)
+        /*if (dashVert != 0 || dashHor != 0)
         {
             RaycastHit hit;
 
@@ -104,13 +110,28 @@ public class T4_PlayerMovement : MonoBehaviour
                 
 
             }
+        }*/
+
+        if (!hasHit)
+        {
+            
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit))
+            {
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+                Debug.Log(hit.point);
+                if (testB)
+                {
+                    hasHit = true;
+                    StartCoroutine(Dash((int)hit.distance, hit.point));
+                    testB = false;
+                }
+            }
         }
         
 
-        
 
 
-        
 
 
         //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + dashUp);
@@ -136,5 +157,53 @@ public class T4_PlayerMovement : MonoBehaviour
             transform.position = new Vector3(transform.position.x + value, transform.position.y, transform.position.z);
             yield return new WaitForSeconds(0.01f);
         }
+    }
+
+    IEnumerator Dash(int distValue, Vector3 direction)
+    {
+        float x;
+        float z;
+        Vector3 movementDash;
+        Debug.Log(distValue);
+        
+
+        
+        for (int i = 0; i < distValue * 10; i++)
+        {
+
+            if (direction.x > transform.position.x)
+            {
+                x = 0.1f;
+            }
+            else if (direction.x < transform.position.x)
+            {
+                x = -0.1f;
+            }
+            else
+            {
+                x = 0;
+            }
+            if (direction.z > transform.position.z)
+            {
+                z = 0.1f;
+            }
+            else if (direction.z < transform.position.z)
+            {
+                z = -0.1f;
+            }
+            else
+            {
+                z = 0;
+            }
+
+            movementDash = new Vector3(x, 0, z);
+
+            rb.MovePosition(rb.position + movementDash);
+
+            
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        hasHit = false;
     }
 }
