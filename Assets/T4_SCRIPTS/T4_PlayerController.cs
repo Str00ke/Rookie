@@ -6,9 +6,12 @@ public class T4_PlayerController : MonoBehaviour
 {
     public GameObject[] characters;
     int characterIndex = 0;
+    public GameObject bullet;
+    public Quaternion bulletRotation;
     void Start()
     {
         characters[characterIndex].SetActive(true);
+        bulletRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z);
     }
 
     // Update is called once per frame
@@ -18,7 +21,13 @@ public class T4_PlayerController : MonoBehaviour
         {
             ChangeCharacter();
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Shoot();
+        }
+
+        characters[characterIndex].transform.position = transform.position;
     }
 
 
@@ -35,5 +44,12 @@ public class T4_PlayerController : MonoBehaviour
             characterIndex++;
             characters[characterIndex].SetActive(true);
         }
+    }
+
+    void Shoot()
+    {
+        
+        Instantiate(bullet, transform.position, bulletRotation);
+        
     }
 }
