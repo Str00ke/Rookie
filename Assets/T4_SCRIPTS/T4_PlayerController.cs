@@ -24,7 +24,7 @@ public class T4_PlayerController : MonoBehaviour
             ChangeCharacter();
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetButtonDown("Fire1") && characterIndex == 0)
         {
             Shoot();
         }
