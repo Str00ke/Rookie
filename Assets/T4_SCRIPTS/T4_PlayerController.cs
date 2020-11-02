@@ -8,10 +8,12 @@ public class T4_PlayerController : MonoBehaviour
     int characterIndex = 0;
     public GameObject bullet;
     public Quaternion bulletRotation;
+    Vector3 bulletPositionOffset;
     void Start()
     {
         characters[characterIndex].SetActive(true);
         bulletRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z);
+        
     }
 
     // Update is called once per frame
@@ -28,6 +30,8 @@ public class T4_PlayerController : MonoBehaviour
         }
 
         characters[characterIndex].transform.position = transform.position;
+
+        
     }
 
 
@@ -48,7 +52,8 @@ public class T4_PlayerController : MonoBehaviour
 
     void Shoot()
     {
-        
+        bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
+        bulletRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z);
         Instantiate(bullet, transform.position, bulletRotation);
         
     }

@@ -22,5 +22,10 @@ public class T4_PlayerMovement : MonoBehaviour
         movHorizontal = Input.GetAxis("Horizontal");
         movement = new Vector3(movHorizontal, 0, movVertical);
         rb.MovePosition(rb.position + movement * 5 * Time.fixedDeltaTime);
+
+        if (rb.velocity.x != 0)
+        {
+            rb.velocity = new Vector3(0, 0, 0);
+        }
     }
 }
