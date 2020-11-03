@@ -13,6 +13,9 @@ public class T4_PlayerMovement : MonoBehaviour
     public bool isCouroutineInactive = false;
     bool hasHit = false;
     bool isStomping = false;
+    public GameObject cacPos;
+    
+    
     public bool isFirstAttack;
     T4_PlayerController charaPool;
 
@@ -32,14 +35,14 @@ public class T4_PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonUp("Fire1"))
         {
             isCouroutineInactive = true;
             isStomping = true;
         }
 
-        
 
+        
 
     }
 
@@ -108,6 +111,8 @@ public class T4_PlayerMovement : MonoBehaviour
             
         }
 
+        
+
     }
 
     private void OnDrawGizmos()
@@ -116,6 +121,12 @@ public class T4_PlayerMovement : MonoBehaviour
         Gizmos.color = new Color(0, 255, 0, 0.25f);
         if (charaPool.characterIndex == 1 && isFirstAttack)
             Gizmos.DrawSphere(transform.position, 5.0f);
+        if (charaPool.characterIndex == 0 && !isFirstAttack)
+        {
+            Gizmos.color = new Color(2555, 0, 0, 0.25f);
+            Gizmos.DrawSphere(cacPos.transform.position, 2.0f);
+        }
+            
     }
 
     void Stomp()
@@ -235,7 +246,7 @@ public class T4_PlayerMovement : MonoBehaviour
             else
             {
                 
-                for (float i = 0; i < 10; i += 0.3f)
+                for (float i = 0; i < 5; i += 0.3f)
                 {
                     transform.position = Vector3.Lerp(
                     transform.position, direction,

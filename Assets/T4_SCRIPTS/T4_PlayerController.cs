@@ -8,15 +8,22 @@ public class T4_PlayerController : MonoBehaviour
     public int characterIndex = 0;
     public GameObject bullet;
     public GameObject missile;
+    public GameObject flame;
+    //bool isFlameThrowering = false;
+    //bool isInstansiated = false;
     public Quaternion bulletRotation;
     Vector3 bulletPositionOffset;
     T4_PlayerMovement playerMovement;
+    //T4_FlameThrower flameScript;
+    //GameObject flameObj;
 
     float reloadTime = 2.0f;
 
     private void Awake()
     {
         playerMovement = FindObjectOfType<T4_PlayerMovement>();
+        flame.SetActive(false);
+        
     }
 
 
@@ -56,6 +63,51 @@ public class T4_PlayerController : MonoBehaviour
                 
 
         }
+
+        if (Input.GetButton("Fire1") && characterIndex == 1)
+        {
+            bool attack = GetComponent<T4_PlayerMovement>().isFirstAttack;
+
+            if (!attack)
+            {
+                flame.SetActive(true);
+            }
+            
+
+        } else
+        {
+            flame.SetActive(false);
+        }
+        /*else if (isFlameThrowering && !Input.GetButton("Fire1"))
+        {
+            isFlameThrowering = false;
+            
+
+        }*/
+
+        /*if (isFlameThrowering && !isInstansiated)
+        {
+            flameObj = Instantiate(flame, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
+            flameScript = FindObjectOfType<T4_FlameThrower>();
+            isInstansiated = true;
+        } else if (isInstansiated && !isFlameThrowering)
+        {
+
+            Destroy(flameObj);
+            //flameScript.Destroy();
+            
+            isInstansiated = false;
+        }
+
+        if (isFlameThrowering && isInstansiated)
+        {
+            flameObj.transform.position = new Vector3(transform.position.x + 1, transform.position.y + transform.rotation.y, transform.position.z + 1);
+            //flameObj.transform.rotation = transform.rotation;
+            Debug.Log(transform.rotation.y);
+
+            flameObj.transform.LookAt(transform, Vector3.left);
+
+        }*/
 
         characters[characterIndex].transform.position = transform.position;
 
@@ -124,7 +176,7 @@ public class T4_PlayerController : MonoBehaviour
             
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
             bulletRotation = Quaternion.Euler(transform.rotation.eulerAngles.x + 90, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z);
-            Instantiate(missile, transform.position, bulletRotation);
+            //Instantiate(missile, transform.position, bulletRotation);
             //GetComponent<T4_PlayerMovement>().isFirstAttack = false;
         } else
         {

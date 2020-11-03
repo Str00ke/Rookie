@@ -40,6 +40,8 @@ public class T4_BulletBehavior : MonoBehaviour
 
     
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name != "Player")
