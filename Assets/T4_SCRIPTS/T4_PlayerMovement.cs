@@ -13,6 +13,7 @@ public class T4_PlayerMovement : MonoBehaviour
     public bool isCouroutineInactive = false;
     bool hasHit = false;
     bool isStomping = false;
+    bool isHitting = false;
     public GameObject cacPos;
     
     
@@ -39,6 +40,14 @@ public class T4_PlayerMovement : MonoBehaviour
         {
             isCouroutineInactive = true;
             isStomping = true;
+            if (charaPool.characterIndex == 0 && !isFirstAttack && isHitting)
+            {
+                Debug.Log("ok");
+                isHitting = false;
+                StartCoroutine(CacHit());
+
+
+            }
         }
 
 
@@ -113,6 +122,8 @@ public class T4_PlayerMovement : MonoBehaviour
 
         
 
+        Debug.Log(isHitting);
+
     }
 
     private void OnDrawGizmos()
@@ -146,6 +157,27 @@ public class T4_PlayerMovement : MonoBehaviour
         //isFirstAttack = false;
     }
 
+    IEnumerator CacHit()
+    {
+        
+        Collider[] CacCollider = Physics.OverlapSphere(cacPos.transform.position, 2.0f);
+        foreach (Collider hit in CacCollider)
+        {
+            if (hit.gameObject.name == "Ennemy")
+            {
+                Debug.Log(hit.gameObject.name);
+
+                //hit.attachedRigidbody.AddForce(-transform.position * 10.0f);
+            }
+
+        }
+
+        yield return new WaitForSeconds(0.5f);
+
+        isHitting = true;
+        //isFirstAttack = false;
+    }
+    
     IEnumerator StompKnockback(float distance, GameObject hit)
     {
         float maxDist = 5.0f;
@@ -271,5 +303,6 @@ public class T4_PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         hasHit = false;
+        isHitting = true;
     }
 }
