@@ -5,7 +5,7 @@ using UnityEngine;
 public class T4_PlayerController : MonoBehaviour
 {
     public GameObject[] characters;
-    int characterIndex = 0;
+    public int characterIndex = 0;
     public GameObject bullet;
     public Quaternion bulletRotation;
     Vector3 bulletPositionOffset;
@@ -43,12 +43,7 @@ public class T4_PlayerController : MonoBehaviour
             
 
         
-        // Does the ray intersect any objects excluding the player layer
-        /*if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-            Debug.Log("Did Hit");
-        }*/
+        
 
     }
 

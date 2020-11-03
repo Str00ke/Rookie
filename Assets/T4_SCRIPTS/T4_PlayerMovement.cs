@@ -13,8 +13,15 @@ public class T4_PlayerMovement : MonoBehaviour
     int dashVert;
     int dashHor;
     float test = 0f;
-    bool testB = false;
+    bool isCouroutineInactive = false;
     bool hasHit = false;
+    T4_PlayerController charaPool;
+
+
+    private void Awake()
+    {
+        charaPool = FindObjectOfType<T4_PlayerController>();
+    }
 
     void Start()
     {
@@ -58,7 +65,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            testB = true;
+            isCouroutineInactive = true;
         }
 
         
@@ -116,17 +123,36 @@ public class T4_PlayerMovement : MonoBehaviour
         {
             
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit))
+
+            if (charaPool.characterIndex == 0)
             {
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
-                Debug.Log(hit.point);
-                if (testB)
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit))
                 {
-                    hasHit = true;
-                    StartCoroutine(Dash((int)hit.distance, hit.point));
-                    testB = false;
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * hit.distance, Color.yellow);
+                    //Debug.Log(hit.distance);
+                    if (isCouroutineInactive)
+                    {
+                        hasHit = true;
+                        StartCoroutine(Dash((int)hit.distance, hit.point));
+                        isCouroutineInactive = false;
+                    }
+                }
+            } else if (charaPool.characterIndex == 1)
+            {
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit))
+                {
+                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * hit.distance, Color.yellow);
+                    //Debug.Log(hit.distance);
+                    if (isCouroutineInactive)
+                    {
+                        hasHit = true;
+                        StartCoroutine(Dash((int)hit.distance, hit.point));
+                        isCouroutineInactive = false;
+                    }
                 }
             }
+
+            
         }
         
 
@@ -161,48 +187,86 @@ public class T4_PlayerMovement : MonoBehaviour
 
     IEnumerator Dash(int distValue, Vector3 direction)
     {
-        float x;
+        /*float x;
         float z;
         Vector3 movementDash;
-        Debug.Log(distValue);
-        
+        //Debug.Log(distValue);
 
-        
-        for (int i = 0; i < distValue * 10; i++)
+        /*if (direction.x > transform.position.x)
+        {
+            x = 1.0f;
+            Debug.Log(direction.x - transform.position.x);
+        }
+        else if (direction.x < transform.position.x)
+        {
+            x = -1.0f;
+            Debug.Log(transform.position.x - direction.x);
+        }
+        else
+        {
+            x = 0;
+            Debug.Log("0");
+        }
+        if (direction.z > transform.position.z)
+        {
+            z = 1.0f;
+            Debug.Log(direction.z - transform.position.z);
+        }
+        else if (direction.z < transform.position.z)
+        {
+            z = -1.0f;
+            Debug.Log(transform.position.z - direction.z);
+        }
+        else
+        {
+            z = 0;
+            Debug.Log("0");
+        }
+
+        if (direction.x != transform.position.x)
+        {
+            Debug.Log(direction.x - transform.position.x);
+        } else
+        {
+            Debug.Log("0");
+        }
+
+        if (direction.z != transform.position.z)
+        {
+            Debug.Log(direction.z - transform.position.z);
+        }
+        else
+        {
+            Debug.Log("0");
+        }
+
+        //movementDash = new Vector3(x, 0, z);
+
+
+        for (int i = 0; i < (distValue * 10); i++)
         {
 
-            if (direction.x > transform.position.x)
-            {
-                x = 0.1f;
-            }
-            else if (direction.x < transform.position.x)
-            {
-                x = -0.1f;
-            }
-            else
-            {
-                x = 0;
-            }
-            if (direction.z > transform.position.z)
-            {
-                z = 0.1f;
-            }
-            else if (direction.z < transform.position.z)
-            {
-                z = -0.1f;
-            }
-            else
-            {
-                z = 0;
-            }
-
-            movementDash = new Vector3(x, 0, z);
-
-            rb.MovePosition(rb.position + movementDash);
-
+            //Debug.Log(i + "<  " + (distValue * 10));
+            //rb.MovePosition(rb.position + movementDash);
+            //transform.position += (transform.position + movementDash / 10) ;
+            //transform.position = new Vector3(transform.position.x + (movementDash.x / 10), transform.position.y, transform.position.z + (movementDash.z / 10));
             
             yield return new WaitForSeconds(0.01f);
+        }*/
+
+        
+
+        float distance = Vector3.Distance(transform.position, direction);
+        while (distance > 1f)
+        {
+            transform.position = Vector3.Lerp(
+            transform.position, direction,
+            Time.deltaTime * 80 / distance);
+            distance = Vector3.Distance(transform.position, direction);
+            yield return new WaitForSeconds(0.01f);
         }
+
+        yield return new WaitForSeconds(0.1f);
 
         hasHit = false;
     }
