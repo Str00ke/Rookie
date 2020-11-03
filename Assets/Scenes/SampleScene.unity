@@ -231,9 +231,8 @@ GameObject:
   - component: {fileID: 203066189}
   - component: {fileID: 203066188}
   - component: {fileID: 203066192}
-  - component: {fileID: 203066193}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Joie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -331,18 +330,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &203066193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203066186}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ab9fea96d1b4104ba785de5ea1ed523, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!850595691 &248954995
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -418,7 +405,7 @@ GameObject:
   - component: {fileID: 302720350}
   - component: {fileID: 302720349}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: "Col\xE8re"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -431,7 +418,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 302720348}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe3c6012e0e79f940900a5c5ed5029a9, type: 3}
   m_Name: 
@@ -890,7 +877,7 @@ GameObject:
   - component: {fileID: 1174130603}
   - component: {fileID: 1174130602}
   m_Layer: 0
-  m_Name: Capsule
+  m_Name: Vomit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1326,6 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab9fea96d1b4104ba785de5ea1ed523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFirstAttack: 0
 --- !u!54 &2139385728
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1359,6 +1347,7 @@ MonoBehaviour:
   - {fileID: 302720348}
   - {fileID: 1174130601}
   - {fileID: 1243461311}
+  characterIndex: 0
   bullet: {fileID: 7516688392345699040, guid: 013a472ee9f60fd4aaec274c82fba852, type: 3}
   bulletRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &2139385730

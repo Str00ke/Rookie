@@ -9,6 +9,14 @@ public class T4_PlayerController : MonoBehaviour
     public GameObject bullet;
     public Quaternion bulletRotation;
     Vector3 bulletPositionOffset;
+    T4_PlayerMovement playerMovement;
+
+    private void Awake()
+    {
+        playerMovement = FindObjectOfType<T4_PlayerMovement>();
+    }
+
+
     void Start()
     {
         characters[characterIndex].SetActive(true);
@@ -21,12 +29,18 @@ public class T4_PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            ChangeCharacter();
+            ChangeCharacter(1);
         }
 
-        if (Input.GetButtonDown("Fire1") && characterIndex == 0)
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ChangeCharacter(-1);
+        }
+
+        if (Input.GetButtonDown("Fire1") && characterIndex == 2)
         {
             Shoot();
+
         }
 
         characters[characterIndex].transform.position = transform.position;
@@ -47,19 +61,41 @@ public class T4_PlayerController : MonoBehaviour
 
     }
 
-    void ChangeCharacter()
+    void ChangeCharacter(int value)
     {
         characters[characterIndex].SetActive(false);
 
-        if (characterIndex + 1 == characters.Length)
+        
+
+        if (value == -1)
         {
-            characterIndex = 0;
-            characters[characterIndex].SetActive(true);
+            if (characterIndex - 1 < 0)
+            {
+                characterIndex = characters.Length - 1;
+                characters[characterIndex].SetActive(true);
+            }
+            else
+            {
+                characterIndex += value;
+                characters[characterIndex].SetActive(true);
+            }
         } else
         {
-            characterIndex++;
-            characters[characterIndex].SetActive(true);
+            if (characterIndex + 1 == characters.Length)
+            {
+                characterIndex = 0;
+                characters[characterIndex].SetActive(true);
+            }
+            else
+            {
+                characterIndex += value;
+                characters[characterIndex].SetActive(true);
+            }
         }
+
+        
+        GetComponent<T4_PlayerMovement>().isFirstAttack = true;
+
     }
 
     void Shoot()
