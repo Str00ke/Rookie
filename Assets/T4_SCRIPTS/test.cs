@@ -8,16 +8,16 @@ public class test : MonoBehaviour
     Vector3 difference;
     float rotationZ;
     void Update () {
-        if (Input.GetKeyDown(KeyCode.A))
+        /*if (Input.GetKeyDown(KeyCode.A))
         {
             //Vector3 mousePos = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z);
             //Vector3 lookPos = Camera.main.ScreenToWorldPoint(mousePos);
             //rotationZ = -(Mathf.Atan2(lookPos.x, lookPos.y) * Mathf.Rad2Deg + 90f);
-            //transform.rotation = Quaternion.Euler(0f, rotationZ, 0f);*/
+            //transform.rotation = Quaternion.Euler(0f, rotationZ, 0f);
             //Debug.Log(mousePos);
             Vector3 mousePos = new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z);
             transform.Rotate(Camera.main.ScreenToWorldPoint(mousePos));
-        }
+        }*/
 
         Vector3 mouse_pos = Input.mousePosition;
 

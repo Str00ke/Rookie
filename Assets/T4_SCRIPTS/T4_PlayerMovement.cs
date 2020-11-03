@@ -101,10 +101,10 @@ public class T4_PlayerMovement : MonoBehaviour
         }
 
 
-        if (charaPool.characterIndex == 1 /* && isFirstAttack && isCouroutineInactive */ && isStomping)
+        if (charaPool.characterIndex == 1 && isFirstAttack && isCouroutineInactive && isStomping)
         {
             Stomp();
-
+            isFirstAttack = false;
             
         }
 
@@ -114,7 +114,7 @@ public class T4_PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.color = new Color(0, 255, 0, 0.25f);
-        if (charaPool.characterIndex == 1)
+        if (charaPool.characterIndex == 1 && isFirstAttack)
             Gizmos.DrawSphere(transform.position, 5.0f);
     }
 
@@ -234,7 +234,8 @@ public class T4_PlayerMovement : MonoBehaviour
             }
             else
             {
-                while (distance > (distValue - (distValue / 3)))
+                
+                for (float i = 0; i < 10; i += 0.3f)
                 {
                     transform.position = Vector3.Lerp(
                     transform.position, direction,
@@ -242,6 +243,14 @@ public class T4_PlayerMovement : MonoBehaviour
                     distance = Vector3.Distance(transform.position, direction);
                     yield return new WaitForSeconds(0.01f);
                 }
+                /*while (distance > 10)
+                {
+                    transform.position = Vector3.Lerp(
+                    transform.position, direction,
+                    Time.deltaTime * (speed / 3) / distance);
+                    distance = Vector3.Distance(transform.position, direction);
+                    yield return new WaitForSeconds(0.01f);
+                }*/
             }
         }
 
