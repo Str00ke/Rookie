@@ -1349,6 +1349,7 @@ MonoBehaviour:
   - {fileID: 1243461311}
   characterIndex: 0
   bullet: {fileID: 7516688392345699040, guid: 013a472ee9f60fd4aaec274c82fba852, type: 3}
+  missile: {fileID: 8265739362458577455, guid: abdbd7925e104e144a4bcef4c63fa4d6, type: 3}
   bulletRotation: {x: 0, y: 0, z: 0, w: 0}
 --- !u!4 &2139385730
 Transform:

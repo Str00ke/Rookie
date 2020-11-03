@@ -10,7 +10,7 @@ public class T4_PlayerMovement : MonoBehaviour
     float movHorizontal;
     float movVertical;
     Vector3 movement;
-    bool isCouroutineInactive = false;
+    public bool isCouroutineInactive = false;
     bool hasHit = false;
     public bool isFirstAttack;
     T4_PlayerController charaPool;
@@ -31,11 +31,14 @@ public class T4_PlayerMovement : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetButtonDown("Fire1"))
         {
             isCouroutineInactive = true;
         }
- 
+
+        
+
+
     }
 
     // Update is called once per frame
@@ -81,7 +84,7 @@ public class T4_PlayerMovement : MonoBehaviour
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit))
                 {
                     Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * hit.distance, Color.yellow);
-                    Debug.Log(hit.distance);
+                    //Debug.Log(hit.distance);
                     if (isCouroutineInactive)
                     {
                         hasHit = true;
@@ -96,11 +99,32 @@ public class T4_PlayerMovement : MonoBehaviour
         }
 
 
+        if (charaPool.characterIndex == 1 && isFirstAttack && isCouroutineInactive)
+        {
+            
 
+            Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
+            foreach (Collider hit in stompCollider)
+            {
+                Debug.Log(hit.gameObject.name);
+            }
+            //isFirstAttack = false;
+        }
 
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.color = new Color(0, 255, 0, 0.25f);
+        if (charaPool.characterIndex == 1)
+            Gizmos.DrawSphere(transform.position, 5.0f);
+    }
 
+    void Stomp()
+    {
+        Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
+    }
 
     IEnumerator Dash(int distValue, Vector3 direction, Collider hit)
     {
@@ -118,7 +142,7 @@ public class T4_PlayerMovement : MonoBehaviour
             speed = 100;
         }
 
-        Debug.Log(speed);/*
+        /*Debug.Log(speed);
         Debug.Log(distValue);*/
 
         float distance = Vector3.Distance(transform.position, direction);
