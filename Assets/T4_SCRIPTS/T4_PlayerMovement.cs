@@ -12,6 +12,7 @@ public class T4_PlayerMovement : MonoBehaviour
     Vector3 movement;
     public bool isCouroutineInactive = false;
     bool hasHit = false;
+    bool isStomping = false;
     public bool isFirstAttack;
     T4_PlayerController charaPool;
 
@@ -34,6 +35,7 @@ public class T4_PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Fire1"))
         {
             isCouroutineInactive = true;
+            isStomping = true;
         }
 
         
@@ -99,16 +101,11 @@ public class T4_PlayerMovement : MonoBehaviour
         }
 
 
-        if (charaPool.characterIndex == 1 && isFirstAttack && isCouroutineInactive)
+        if (charaPool.characterIndex == 1 /* && isFirstAttack && isCouroutineInactive */ && isStomping)
         {
-            
+            Stomp();
 
-            Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
-            foreach (Collider hit in stompCollider)
-            {
-                Debug.Log(hit.gameObject.name);
-            }
-            //isFirstAttack = false;
+            
         }
 
     }
@@ -124,6 +121,39 @@ public class T4_PlayerMovement : MonoBehaviour
     void Stomp()
     {
         Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
+        foreach (Collider hit in stompCollider)
+        {
+            if (hit.gameObject.name != "Player")
+            {
+                //Debug.Log(hit.gameObject.name);
+                StartCoroutine(StompKnockback(Vector3.Distance(transform.position, hit.transform.position), hit.gameObject));
+                //hit.attachedRigidbody.AddForce(-transform.position * 10.0f);
+            }
+
+        }
+        isStomping = false;
+        //isFirstAttack = false;
+    }
+
+    IEnumerator StompKnockback(float distance, GameObject hit)
+    {
+        float maxDist = 5.0f;
+        float actualDist = distance;
+        float speed = -(actualDist - maxDist);
+        Vector3 lockPos = transform.position;
+
+        while (actualDist < maxDist)
+        {
+            transform.position = new Vector3(lockPos.x, lockPos.y, lockPos.z);
+            hit.transform.position = Vector3.MoveTowards(hit.transform.position, transform.position, -(speed) * 7 * Time.deltaTime);
+            Debug.Log(-(actualDist - maxDist));
+            actualDist = Vector3.Distance(transform.position, hit.transform.position);
+            //Debug.Log(hit.transform.position);
+            //Debug.Log(actualDist);
+            yield return new WaitForSeconds(0.01f);
+        }
+
+        yield return new WaitForSeconds(0.1f);
     }
 
     IEnumerator Dash(int distValue, Vector3 direction, Collider hit)

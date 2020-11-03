@@ -1313,6 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab9fea96d1b4104ba785de5ea1ed523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCouroutineInactive: 0
   isFirstAttack: 0
 --- !u!54 &2139385728
 Rigidbody:
