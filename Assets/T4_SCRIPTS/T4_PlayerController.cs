@@ -19,6 +19,10 @@ public class T4_PlayerController : MonoBehaviour
 
     float reloadTime = 2.0f;
 
+    public float damageDeal;
+    public float maxLife;
+    public float currentLife;
+
     private void Awake()
     {
         playerMovement = FindObjectOfType<T4_PlayerMovement>();
@@ -29,6 +33,8 @@ public class T4_PlayerController : MonoBehaviour
 
     void Start()
     {
+        currentLife = maxLife;
+
         characters[characterIndex].SetActive(true);
         reloadTime -= reloadTime;
     }
@@ -186,5 +192,22 @@ public class T4_PlayerController : MonoBehaviour
         }
         
         
+    }
+
+
+    public void TakeDamage(float damageValue)
+    {
+        currentLife -= damageDeal;
+
+        if (currentLife <= 0)
+        {
+            Debug.Log("Dead");
+        }
+
+    }
+
+    public void DealDamage(float damageValue, GameObject hit)
+    {
+        hit.GetComponent<T4_EnemyController>().TakeDamage(damageValue);
     }
 }

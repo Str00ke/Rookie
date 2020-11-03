@@ -9,6 +9,7 @@ public class T4_BulletBehavior : MonoBehaviour
     public int speed;
     Vector3 direction;
     T4_PlayerMovement playerMovement;
+    string hitName;
 
     private void Awake()
     {
@@ -44,18 +45,20 @@ public class T4_BulletBehavior : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name != "Player")
-        {
-            if (other.gameObject.name == "Ennemy")
-            {
-                Destroy(gameObject);
-                Debug.Log("wow!");
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
+        string[] splitName = other.name.Split(char.Parse("_"));
+        string hitName = splitName[0];
         
+
+        if (hitName == "Ennemy")
+        {
+            GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, other.gameObject);
+        }
+
+
+        if (hitName == "Player")
+        {
+            GetComponent<T4_PlayerController>().TakeDamage(FindObjectOfType<T4_EnemyController>().damageDeal);
+        }
+
     }
 }

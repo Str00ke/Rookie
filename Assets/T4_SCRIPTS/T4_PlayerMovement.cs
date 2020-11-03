@@ -14,6 +14,7 @@ public class T4_PlayerMovement : MonoBehaviour
     bool hasHit = false;
     bool isStomping = false;
     bool isHitting = false;
+    //bool isPicked = true;
     public GameObject cacPos;
     
     
@@ -36,6 +37,20 @@ public class T4_PlayerMovement : MonoBehaviour
     private void Update()
     {
 
+        /*if (charaPool.characterIndex == 1 && isFirstAttack)
+        {
+            isPicked = true;
+            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Debug.Log(transform.position);
+            Debug.Log(Input.mousePosition);
+            transform.position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
+            
+            if (Input.GetButtonUp("Fire1"))
+            {
+                isPicked = false;
+            }
+        }*/
+
         if (Input.GetButtonUp("Fire1"))
         {
             isCouroutineInactive = true;
@@ -48,6 +63,8 @@ public class T4_PlayerMovement : MonoBehaviour
 
 
             }
+
+            
         }
 
 
@@ -115,6 +132,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
         if (charaPool.characterIndex == 1 && isFirstAttack && isCouroutineInactive && isStomping)
         {
+            //while (!Input.GetButtonDown("Fire1"))
             Stomp();
             isFirstAttack = false;
             
@@ -122,7 +140,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
         
 
-        Debug.Log(isHitting);
+
 
     }
 
@@ -142,15 +160,23 @@ public class T4_PlayerMovement : MonoBehaviour
 
     void Stomp()
     {
+
+        
+
         Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
         foreach (Collider hit in stompCollider)
         {
-            if (hit.gameObject.name != "Player")
+            string[] splitName = hit.name.Split(char.Parse("_"));
+            string hitName = splitName[0];
+
+            if (hitName == "Ennemy")
             {
-                //Debug.Log(hit.gameObject.name);
+                GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, hit.gameObject);
                 StartCoroutine(StompKnockback(Vector3.Distance(transform.position, hit.transform.position), hit.gameObject));
-                //hit.attachedRigidbody.AddForce(-transform.position * 10.0f);
             }
+
+
+            
 
         }
         isStomping = false;
@@ -163,12 +189,15 @@ public class T4_PlayerMovement : MonoBehaviour
         Collider[] CacCollider = Physics.OverlapSphere(cacPos.transform.position, 2.0f);
         foreach (Collider hit in CacCollider)
         {
-            if (hit.gameObject.name == "Ennemy")
-            {
-                Debug.Log(hit.gameObject.name);
+            string[] splitName = hit.name.Split(char.Parse("_"));
+            string hitName = splitName[0];
 
-                //hit.attachedRigidbody.AddForce(-transform.position * 10.0f);
+            if (hitName == "Ennemy")
+            {
+                GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, hit.gameObject);
             }
+
+               
 
         }
 
@@ -278,7 +307,7 @@ public class T4_PlayerMovement : MonoBehaviour
             else
             {
                 
-                for (float i = 0; i < 5; i += 0.3f)
+                for (float i = 0; i < 6; i += 0.3f)
                 {
                     transform.position = Vector3.Lerp(
                     transform.position, direction,
