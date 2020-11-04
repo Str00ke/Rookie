@@ -12,7 +12,7 @@ public class T4_BulletBehavior : MonoBehaviour
     Vector3 direction;
     T4_PlayerMovement playerMovement;
     string hitName;
-
+    string shooterName;
     
 
 
@@ -25,13 +25,22 @@ public class T4_BulletBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<MeshCollider>();
-        if (gameObject.name == "Player")
+
+        
+
+        if (shooterName == "Player")
         {
             speed = playerSpeed;
         } else
         {
             speed = enemySpeed;
         }
+    }
+
+    public void getName(string name)
+    {
+        shooterName = name;
+        Debug.Log(shooterName);
     }
 
     // Update is called once per frame
@@ -62,13 +71,17 @@ public class T4_BulletBehavior : MonoBehaviour
         string[] splitName = other.name.Split(char.Parse("_"));
         string hitName = splitName[0];
 
-        if (hitName == "Ennemy")
+
+        if (hitName == "Ennemy" && shooterName != "Ennemy")
         {
             FindObjectOfType<T4_PlayerController>().DealDamage(false, other.gameObject);
-        } else if (hitName == "Player")
+            Destroy(gameObject);
+        } else if (hitName == "Player" && shooterName != "Player")
         {
+
             FindObjectOfType<T4_EnemyController>().DealDamage(FindObjectOfType<T4_EnemyController>().damageDeal);
-        } else
+            Destroy(gameObject);
+        } else if (other.gameObject.name == "Wall")
         {
             Destroy(gameObject);
         }

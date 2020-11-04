@@ -262,7 +262,8 @@ public class T4_PlayerController : MonoBehaviour
         {
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
             bulletRotation = Quaternion.Euler(dirMouse.transform.rotation.eulerAngles.x, dirMouse.transform.rotation.eulerAngles.y + 90, dirMouse.transform.rotation.eulerAngles.z);
-            Instantiate(bullet, transform.position, bulletRotation);
+            GameObject go = Instantiate(bullet, transform.position, bulletRotation);
+            go.SendMessage("getName", "Player");
         }
         
         

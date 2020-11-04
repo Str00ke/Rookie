@@ -219,7 +219,8 @@ public class T4_EnemyController : MonoBehaviour
             for (int i = 0; i < AlienShotsNbrBtwChecks; i++)
             {
                 Debug.Log("Attack");
-                Instantiate(bullet, transform.position, transform.rotation);
+                GameObject go = Instantiate(bullet, transform.position, transform.rotation);
+                go.SendMessage("getName", "Ennemy");
                 yield return new WaitForSeconds(AlienBtwShots);
             }
             yield return new WaitForSeconds(AlienBtwReload);
@@ -272,6 +273,11 @@ public class T4_EnemyController : MonoBehaviour
         distance = Vector3.Distance(player.transform.position, transform.position);
         while (distance <= SqueletteMinDistance) //try with while
         {
+            if (isStun)
+            {
+                break;
+            }
+
             //attack
             Collider[] playerHit = Physics.OverlapSphere(transform.position, SqueletteAttackRadius);
             foreach (Collider hit in playerHit)
