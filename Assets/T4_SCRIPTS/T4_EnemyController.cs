@@ -71,7 +71,6 @@ public class T4_EnemyController : MonoBehaviour
     
     void Update()
     {
-        Debug.Log(isStun);
 
         if (isStun)
         {
@@ -275,12 +274,11 @@ public class T4_EnemyController : MonoBehaviour
         {
             //attack
             Collider[] playerHit = Physics.OverlapSphere(transform.position, SqueletteAttackRadius);
-            Debug.Log("attack");
             foreach (Collider hit in playerHit)
             {
                 if (hit.name == "Player")
                 {
-                    Debug.Log(hit.gameObject.name + " Touché!");
+                    //Debug.Log(hit.gameObject.name + " Touché!");
                     DealDamage(damageDeal);
                 }
             }
@@ -340,12 +338,14 @@ public class T4_EnemyController : MonoBehaviour
 
     public void TakeDamage(float damageValue)
     {
-        /*currentLife -= damageDeal;
+        currentLife -= damageDeal;
+
+        Debug.Log("Enemy life: " + currentLife);
 
         if (currentLife <= 0)
         {
             Destroy(gameObject);
-        }*/
+        }
 
         if (isStun)
         {
@@ -360,7 +360,6 @@ public class T4_EnemyController : MonoBehaviour
     public void DealDamage(float damageValue)
     {
         FindObjectOfType<T4_PlayerController>().TakeDamage(damageValue);
-        Debug.Log("Player touché");
     }
 
 }

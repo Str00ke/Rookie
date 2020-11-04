@@ -6,10 +6,15 @@ public class T4_BulletBehavior : MonoBehaviour
 {
     Rigidbody rb;
     MeshCollider col;
-    public int speed;
+    public float playerSpeed;
+    public float enemySpeed;
+    float speed;
     Vector3 direction;
     T4_PlayerMovement playerMovement;
     string hitName;
+
+    
+
 
     private void Awake()
     {
@@ -20,6 +25,13 @@ public class T4_BulletBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<MeshCollider>();
+        if (gameObject.name == "Player")
+        {
+            speed = playerSpeed;
+        } else
+        {
+            speed = enemySpeed;
+        }
     }
 
     // Update is called once per frame
@@ -52,7 +64,7 @@ public class T4_BulletBehavior : MonoBehaviour
 
         if (hitName == "Ennemy")
         {
-            FindObjectOfType<T4_PlayerController>().DealDamage(other.gameObject);
+            FindObjectOfType<T4_PlayerController>().DealDamage(false, other.gameObject);
         } else if (hitName == "Player")
         {
             FindObjectOfType<T4_EnemyController>().DealDamage(FindObjectOfType<T4_EnemyController>().damageDeal);

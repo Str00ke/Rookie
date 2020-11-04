@@ -22,9 +22,18 @@ public class T4_PlayerController : MonoBehaviour
 
     float reloadTime = 2.0f;
 
-    public float damageDeal;
+    float firstAttackDamageDeal;
+    float attackDamageDeal;
     public float maxLife;
     public float currentLife;
+
+    [Header("CharactersDamageValue")]
+    public float joieFirstDamageValue;
+    public float joieBaseDamageValue;
+    public float colereFirstDamageValue;
+    public float colereBaseDamageValue;
+    public float vomiFirstDamageValue;
+    public float vomiBaseDamageValue;
 
     private void Awake()
     {
@@ -36,6 +45,23 @@ public class T4_PlayerController : MonoBehaviour
 
     void Start()
     {
+
+        if (gameObject.gameObject.name == "Joie")
+        {
+            firstAttackDamageDeal = joieFirstDamageValue;
+            attackDamageDeal = joieBaseDamageValue;
+        }
+        else if (gameObject.gameObject.name == "Colere")
+        {
+            firstAttackDamageDeal = colereFirstDamageValue;
+            attackDamageDeal = colereBaseDamageValue;
+        }
+        else
+        {
+            firstAttackDamageDeal = vomiFirstDamageValue;
+            attackDamageDeal = vomiBaseDamageValue;
+        }
+
         currentLife = maxLife;
 
         characters[characterIndex].SetActive(true);
@@ -45,6 +71,9 @@ public class T4_PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
+
         
         if (reloadTime > 0)
         {
@@ -129,13 +158,13 @@ public class T4_PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));*/
 
 
-        if (flameCollider.GetComponent<MeshCollider>())
-            Debug.Log("yesy");
+        //if (flameCollider.GetComponent<MeshCollider>())
+            //Debug.Log("yesy");
         //flameCollider = FindObjectOfType<QuadCreator>().gameObject.GetComponent<MeshCollider>();
 
         flameCollider.transform.position = transform.position;
 
-        if (flame.activeSelf)
+        /*if (flame.activeSelf)
         {
             Vector3 mouse_pos = Input.mousePosition;
 
@@ -145,7 +174,7 @@ public class T4_PlayerController : MonoBehaviour
             float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
             flame.transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
             
-        }
+        }*/
 
     }
 
@@ -202,6 +231,21 @@ public class T4_PlayerController : MonoBehaviour
         GetComponent<T4_PlayerMovement>().isFirstAttack = true;
         GetComponent<T4_PlayerMovement>().isCouroutineInactive = false;
         GetComponent<T4_PlayerMovement>().ChangeCharaAnim();
+        if (gameObject.gameObject.name == "Joie")
+        {
+            firstAttackDamageDeal = joieFirstDamageValue;
+            attackDamageDeal = joieBaseDamageValue;
+        }
+        else if (gameObject.gameObject.name == "Colere")
+        {
+            firstAttackDamageDeal = colereFirstDamageValue;
+            attackDamageDeal = colereBaseDamageValue;
+        }
+        else
+        {
+            firstAttackDamageDeal = vomiFirstDamageValue;
+            attackDamageDeal = vomiBaseDamageValue;
+        }
 
     }
 
@@ -227,7 +271,9 @@ public class T4_PlayerController : MonoBehaviour
 
     public void TakeDamage(float damageValue)
     {
-        currentLife -= damageDeal;
+        currentLife -= damageValue;
+
+        Debug.Log("Player life: " + currentLife);
 
         if (currentLife <= 0)
         {
@@ -236,11 +282,18 @@ public class T4_PlayerController : MonoBehaviour
 
     }
 
-    public void DealDamage(GameObject hit)
+    public void DealDamage(bool isFirstAttack, GameObject hit)
     {
-        Debug.Log(" touché");
-        hit.GetComponent<T4_EnemyController>().TakeDamage(damageDeal);
-        Debug.Log(hit.name + " touché");
+        if (isFirstAttack)
+        {
+            hit.GetComponent<T4_EnemyController>().TakeDamage(firstAttackDamageDeal);
+        } else
+        {
+            hit.GetComponent<T4_EnemyController>().TakeDamage(attackDamageDeal);
+        }
+
+        
+        //Debug.Log(hit.name + " touché");
     }
 
     

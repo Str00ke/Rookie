@@ -80,7 +80,7 @@ public class QuadCreator : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        FindObjectOfType<T4_PlayerController>().DealDamage(other.gameObject);
+        FindObjectOfType<T4_PlayerController>().DealDamage(false, other.gameObject);
     }
 
 

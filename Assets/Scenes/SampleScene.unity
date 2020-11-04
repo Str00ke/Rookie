@@ -204,9 +204,14 @@ MonoBehaviour:
   bulletRotation: {x: 0, y: 0, z: 0, w: 0}
   flameCollider: {fileID: 757448313}
   dirMouse: {fileID: 760825617}
-  damageDeal: 1
-  maxLife: 0
+  maxLife: 100
   currentLife: 0
+  joieFirstDamageValue: 20
+  joieBaseDamageValue: 10
+  colereFirstDamageValue: 20
+  colereBaseDamageValue: 10
+  vomiFirstDamageValue: 20
+  vomiBaseDamageValue: 10
 --- !u!54 &72497404
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1365,7 +1370,7 @@ GameObject:
   - component: {fileID: 845222863}
   - component: {fileID: 845222862}
   m_Layer: 0
-  m_Name: "Col\xE8re"
+  m_Name: Colere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2664,7 +2669,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1807627079
 Transform:
   m_ObjectHideFlags: 0
@@ -2763,8 +2768,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 0}
-  damageDeal: 0
-  MaxLife: 0
+  damageDeal: 1
+  MaxLife: 50
   currentLife: 0
   stunTime: 3
   AlienSpeed: 0
@@ -2973,9 +2978,14 @@ MonoBehaviour:
   bulletRotation: {x: 0, y: 0, z: 0, w: 0}
   flameCollider: {fileID: 0}
   dirMouse: {fileID: 0}
-  damageDeal: 0
   maxLife: 0
   currentLife: 0
+  joieFirstDamageValue: 0
+  joieBaseDamageValue: 0
+  colereFirstDamageValue: 0
+  colereBaseDamageValue: 0
+  vomiFirstDamageValue: 0
+  vomiBaseDamageValue: 0
 --- !u!4 &2139385730
 Transform:
   m_ObjectHideFlags: 0

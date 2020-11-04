@@ -82,8 +82,58 @@ public class T4_PlayerMovement : MonoBehaviour
         movHorizontal = Input.GetAxis("Horizontal");
         movement = new Vector3(movHorizontal, 0, movVertical);
         rb.MovePosition(rb.position + movement * 5 * Time.fixedDeltaTime);
-        anim.SetFloat("Horizontal", movHorizontal);
-        anim.SetFloat("Vertical", movVertical);
+
+        Vector3 mouse_pos = Input.mousePosition;
+
+        Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
+        mouse_pos.x = mouse_pos.x - object_pos.x;
+        mouse_pos.y = mouse_pos.y - object_pos.y;
+        float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
+        
+        if (angle < 90 && angle > -90)
+        {
+            if (movVertical < 0)
+            {
+                anim.SetFloat("Vertical", -movVertical);
+            } else
+            {
+                anim.SetFloat("Vertical", movVertical);
+            }
+
+            
+            
+            /*if (movVertical > 0)
+            {
+                anim.SetFloat("Vertical", movVertical);
+                Debug.Log("haut");
+            } else
+            {
+                anim.SetFloat("Vertical", -1);
+                Debug.Log(movVertical);
+            }*/
+        }
+            
+        else
+        {
+
+            if (movVertical < 0)
+            {
+                anim.SetFloat("Vertical", movVertical);
+            }
+            else
+            {
+                anim.SetFloat("Vertical", -movVertical);
+            }
+        }
+
+        
+            
+
+
+
+
+        //anim.SetFloat("Horizontal", movHorizontal);
+        //anim.SetFloat("Vertical", movVertical);
 
         if (rb.velocity.x != 0)
         {
@@ -207,7 +257,7 @@ public class T4_PlayerMovement : MonoBehaviour
             string hitName = splitName[0];
             if (hitName == "Ennemy")
             {
-                GetComponent<T4_PlayerController>().DealDamage(hit.gameObject);
+                GetComponent<T4_PlayerController>().DealDamage(false, hit.gameObject);
             }
 
                
@@ -238,7 +288,7 @@ public class T4_PlayerMovement : MonoBehaviour
             //Debug.Log(actualDist);
             yield return new WaitForSeconds(0.01f);
         }
-        GetComponent<T4_PlayerController>().DealDamage(hit.gameObject);
+        GetComponent<T4_PlayerController>().DealDamage(true, hit.gameObject);
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -296,7 +346,7 @@ public class T4_PlayerMovement : MonoBehaviour
                     distance = Vector3.Distance(transform.position, direction);
                     yield return new WaitForSeconds(0.01f);
                 }
-                GetComponent<T4_PlayerController>().DealDamage(hit.gameObject);
+                GetComponent<T4_PlayerController>().DealDamage(true, hit.gameObject);
             }
             else
             {
