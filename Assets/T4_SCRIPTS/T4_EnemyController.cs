@@ -280,7 +280,7 @@ public class T4_EnemyController : MonoBehaviour
             {
                 if (hit.name == "Player")
                 {
-                    Debug.Log("Hit!");
+                    Debug.Log(hit.gameObject.name + " Touché!");
                     DealDamage(damageDeal);
                 }
             }
@@ -360,7 +360,7 @@ public class T4_EnemyController : MonoBehaviour
     public void DealDamage(float damageValue)
     {
         FindObjectOfType<T4_PlayerController>().TakeDamage(damageValue);
-        
+        Debug.Log("Player touché");
     }
 
 }

@@ -34,7 +34,6 @@ public class T4_PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         isFirstAttack = true;
         anim = GetComponentInChildren<Animator>();
-        Debug.Log(anim.gameObject);
     }
 
 
@@ -61,7 +60,6 @@ public class T4_PlayerMovement : MonoBehaviour
             isStomping = true;
             if (charaPool.characterIndex == 0 && !isFirstAttack && isHitting)
             {
-                Debug.Log("ok");
                 isHitting = false;
                 StartCoroutine(CacHit());
 
@@ -165,10 +163,13 @@ public class T4_PlayerMovement : MonoBehaviour
             Gizmos.DrawSphere(transform.position, 5.0f);
         if (charaPool.characterIndex == 0 && !isFirstAttack)
         {
-            Gizmos.color = new Color(2555, 0, 0, 0.25f);
+            Gizmos.color = new Color(255, 0, 0, 0.25f);
             Gizmos.DrawSphere(cacPos.transform.position, 2.0f);
         }
-            
+
+        Gizmos.color = new Color(0, 0, 255, 0.25f);
+        //Gizmos.DrawSphere(cacPos)
+
     }
 
     void Stomp()
@@ -198,16 +199,15 @@ public class T4_PlayerMovement : MonoBehaviour
 
     IEnumerator CacHit()
     {
-        
+
         Collider[] CacCollider = Physics.OverlapSphere(cacPos.transform.position, 2.0f);
         foreach (Collider hit in CacCollider)
         {
             string[] splitName = hit.name.Split(char.Parse("_"));
             string hitName = splitName[0];
-
             if (hitName == "Ennemy")
             {
-                GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, hit.gameObject);
+                GetComponent<T4_PlayerController>().DealDamage(hit.gameObject);
             }
 
                
@@ -238,7 +238,7 @@ public class T4_PlayerMovement : MonoBehaviour
             //Debug.Log(actualDist);
             yield return new WaitForSeconds(0.01f);
         }
-        GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, hit.gameObject);
+        GetComponent<T4_PlayerController>().DealDamage(hit.gameObject);
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -286,7 +286,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
 
             }
-            else if (distValue > 15 && hitName == "Ennemy")
+            else if (/*distValue > 15 && */hitName == "Ennemy")
             {
                 while (distance > 1f)
                 {
@@ -296,6 +296,7 @@ public class T4_PlayerMovement : MonoBehaviour
                     distance = Vector3.Distance(transform.position, direction);
                     yield return new WaitForSeconds(0.01f);
                 }
+                GetComponent<T4_PlayerController>().DealDamage(hit.gameObject);
             }
             else
             {

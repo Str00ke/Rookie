@@ -20,7 +20,6 @@ public class T4_BulletBehavior : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<MeshCollider>();
-        Debug.Log(gameObject.name);
     }
 
     // Update is called once per frame
@@ -39,22 +38,24 @@ public class T4_BulletBehavior : MonoBehaviour
         
     }
 
-    
 
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         string[] splitName = other.name.Split(char.Parse("_"));
         string hitName = splitName[0];
-        
 
         if (hitName == "Ennemy")
         {
-            GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, other.gameObject);
+            FindObjectOfType<T4_PlayerController>().DealDamage(other.gameObject);
         } else if (hitName == "Player")
         {
-            GetComponent<T4_PlayerController>().TakeDamage(FindObjectOfType<T4_EnemyController>().damageDeal);
+            FindObjectOfType<T4_EnemyController>().DealDamage(FindObjectOfType<T4_EnemyController>().damageDeal);
         } else
         {
             Destroy(gameObject);

@@ -16,6 +16,7 @@ public class T4_PlayerController : MonoBehaviour
     T4_PlayerMovement playerMovement;
     //T4_FlameThrower flameScript;
     //GameObject flameObj;
+    public GameObject flameCollider;
 
     public GameObject dirMouse;
 
@@ -127,8 +128,28 @@ public class T4_PlayerController : MonoBehaviour
         float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));*/
 
+
+        if (flameCollider.GetComponent<MeshCollider>())
+            Debug.Log("yesy");
+        //flameCollider = FindObjectOfType<QuadCreator>().gameObject.GetComponent<MeshCollider>();
+
+        flameCollider.transform.position = transform.position;
+
+        if (flame.activeSelf)
+        {
+            Vector3 mouse_pos = Input.mousePosition;
+
+            Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
+            mouse_pos.x = mouse_pos.x - object_pos.x;
+            mouse_pos.y = mouse_pos.y - object_pos.y;
+            float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
+            flame.transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
+            
+        }
+
     }
 
+    
 
     private void FixedUpdate()
     {
@@ -215,8 +236,12 @@ public class T4_PlayerController : MonoBehaviour
 
     }
 
-    public void DealDamage(float damageValue, GameObject hit)
+    public void DealDamage(GameObject hit)
     {
-        hit.GetComponent<T4_EnemyController>().TakeDamage(damageValue);
+        Debug.Log(" touché");
+        hit.GetComponent<T4_EnemyController>().TakeDamage(damageDeal);
+        Debug.Log(hit.name + " touché");
     }
+
+    
 }
