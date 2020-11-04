@@ -10,6 +10,11 @@ public class T4_EnemyController : MonoBehaviour
     public GameObject bullet;
     float distance;
     bool isAttacking = false;
+    SpriteRenderer sprite;
+    Animator anim;
+
+    float distanceX;
+    float distanceZ;
 
     public float damageDeal;
     public float MaxLife;
@@ -57,6 +62,8 @@ public class T4_EnemyController : MonoBehaviour
     private void Awake()
     {
         player = FindObjectOfType<T4_PlayerController>().gameObject;
+        sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
     }
 
     
@@ -71,18 +78,79 @@ public class T4_EnemyController : MonoBehaviour
     
     void Update()
     {
+        
+        
+        /*if (player.transform.position.z > transform.position.z)
+        {
+            anim.SetFloat("Vertical", 1);
+        } else
+        {
+            anim.SetFloat("Vertical", -1);
+        }*/
+
+        if (player.transform.position.x > transform.position.x)
+        {
+            distanceX = player.transform.position.x - transform.position.x;
+
+        } else
+        {
+            distanceX = transform.position.x - player.transform.position.x;
+        }
+
+
+        if (player.transform.position.z > transform.position.z)
+        {
+            distanceZ = player.transform.position.z - transform.position.z;
+        }
+        else
+        {
+            distanceZ = transform.position.z - player.transform.position.z;
+        }
+
+        if (distanceX > distanceZ)
+        {
+            if (player.transform.position.x > transform.position.x)
+            {
+                sprite.flipX = true;
+                anim.SetFloat("Vertical", 0);
+                anim.SetFloat("Horizontal", 1);
+            }
+            else
+            {
+                sprite.flipX = false;
+                anim.SetFloat("Vertical", 0);
+                anim.SetFloat("Horizontal", -1f);
+            }
+        } else
+        {
+            if (player.transform.position.z > transform.position.z)
+            {
+                sprite.flipX = true;
+                anim.SetFloat("Horizontal", 0);
+                anim.SetFloat("Vertical", 1);
+            }
+            else
+            {
+                sprite.flipX = false;
+                anim.SetFloat("Horizontal", 0);
+                anim.SetFloat("Vertical", -1);
+            }
+        }
+
+        
 
         if (isStun)
         {
             if (time < stunTime)
             {
                 time += Time.deltaTime;
-            } else
+            }
+            else
             {
                 isStun = false;
                 time = 0;
             }
-            
+
         }
 
         distance = Vector3.Distance(player.transform.position, transform.position);
@@ -96,12 +164,8 @@ public class T4_EnemyController : MonoBehaviour
                     if (distance > AlienMinDistance)
                     {
                         transform.position = Vector3.MoveTowards(transform.position, player.transform.position, AlienSpeed * Time.deltaTime);
+                        anim.SetBool("isIdle", false);
                     }
-                    /*else if (distance < AlienMaxDist) Si Alien Backwards et rentre dans un mur, il le traverse.
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -AlienSpeed * Time.deltaTime);
-                        transform.LookAt(player.transform);
-                    }*/
                     else
                     {
                         StartCoroutine(AlienShoot());
@@ -155,55 +219,13 @@ public class T4_EnemyController : MonoBehaviour
         
     }
 
-    /*void Stun()
-    {
-        if (isStun)
-        {
-            return;
-        }else
-        {
-            isStun = true;
-            //StartCoroutine(StunTime());
-
-            /*float time = 0;
-
-            while (time < stunTime)
-            {
-                time += Time.deltaTime;
-                
-
-            }
-            isStun = false;
-        }
-
-    }
-
-    IEnumerator StunTime()
-    {
-        
-        float time = 0;
-
-        while (time < stunTime)
-        {
-            time += 0.1f;
-            yield return new WaitForSeconds(0.1f);
-
-        }
-
-        if (time >= stunTime)
-        {
-            isStun = false;
-        }
-        //isStun = false;
-        
-        yield return new WaitForSeconds(0.1f);
-        
-
-    }*/
 
 
     IEnumerator AlienShoot()
     {
+        anim.SetBool("isIdle", true);
+        anim.SetBool("isCharging", true);
+        
         //Maybe Bacwards if player too near?
         isAttacking = true;
         //transform.position = transform.position;
@@ -213,19 +235,21 @@ public class T4_EnemyController : MonoBehaviour
 
         while (distance <= AlienMinDistance/* && distance >= AlienMaxDist*/) //Tirs par seconde? Rafale? Coup par coup? Check si player in distance tout les combiens?
         {
-            Debug.Log("inBounds");
-            transform.LookAt(player.transform);
-
+            anim.SetBool("isFlashing", true);
             for (int i = 0; i < AlienShotsNbrBtwChecks; i++)
             {
-                Debug.Log("Attack");
                 GameObject go = Instantiate(bullet, transform.position, transform.rotation);
                 go.SendMessage("getName", "Ennemy");
                 yield return new WaitForSeconds(AlienBtwShots);
             }
+            anim.SetBool("isCharging", true);
             yield return new WaitForSeconds(AlienBtwReload);
             distance = Vector3.Distance(player.transform.position, transform.position);
         }
+
+        anim.SetBool("isCharging", false);
+        anim.SetBool("isFlashing", false);
+        anim.SetBool("isIdle", true);
 
         yield return new WaitForSeconds(1.0f);
         isAttacking = false;
@@ -254,7 +278,7 @@ public class T4_EnemyController : MonoBehaviour
                 }
             }
 
-            transform.LookAt(player.transform);
+            //transform.LookAt(player.transform);
 
             yield return new WaitForSeconds(OniAttackCooldown);
             distance = Vector3.Distance(player.transform.position, transform.position);
