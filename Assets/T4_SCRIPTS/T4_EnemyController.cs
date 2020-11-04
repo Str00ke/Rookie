@@ -20,6 +20,7 @@ public class T4_EnemyController : MonoBehaviour
     public float AlienMinDistance;
     public float AlienTimeBeforeAttack;
     public float AlienAttackCooldown;
+    public float AlienShotsNbrBtwChecks;
     public float AlienBtwShots;
     public float AlienBtwReload;
     public float AlienMaxDist;
@@ -133,7 +134,7 @@ public class T4_EnemyController : MonoBehaviour
             Debug.Log("inBounds");
             transform.LookAt(player.transform);
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < AlienShotsNbrBtwChecks; i++)
             {
                 Debug.Log("Attack");
                 Instantiate(bullet, transform.position, transform.rotation);
