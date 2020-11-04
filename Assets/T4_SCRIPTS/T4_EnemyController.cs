@@ -15,6 +15,10 @@ public class T4_EnemyController : MonoBehaviour
     public float MaxLife;
     public float currentLife;
 
+    public float stunTime;
+    float time = 0;
+    bool isStun = false;
+
     [Header("Alien")]
     public float AlienSpeed;
     public float AlienMinDistance;
@@ -24,6 +28,7 @@ public class T4_EnemyController : MonoBehaviour
     public float AlienBtwShots;
     public float AlienBtwReload;
     public float AlienMaxDist;
+    public float AlienScale;
 
     [Header("Oni")]
     public float OniSpeed;
@@ -32,6 +37,7 @@ public class T4_EnemyController : MonoBehaviour
     public float OniAttackCooldown;
     public float OniAttackRadius;
     public GameObject OniAttackRange;
+    public float OniScale;
 
     [Header("Squelette")]
     public float SqueletteSpeed;
@@ -40,6 +46,7 @@ public class T4_EnemyController : MonoBehaviour
     public float SqueletteAttackCooldown;
     public float SqueletteAttackRadius;
     public GameObject SqueletteAttackRange;
+    public float SqueletteScale;
 
     
 
@@ -64,23 +71,45 @@ public class T4_EnemyController : MonoBehaviour
     
     void Update()
     {
+        Debug.Log(isStun);
+
+        if (isStun)
+        {
+            if (time < stunTime)
+            {
+                time += Time.deltaTime;
+            } else
+            {
+                isStun = false;
+                time = 0;
+            }
+            
+        }
+
         distance = Vector3.Distance(player.transform.position, transform.position);
         if (!isAttacking)
         {
+            
             if (enemyName == "Alien") //Maybe Bacwards if player too near?
             {
-                if (distance > AlienMinDistance)
+                if (!isStun)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, AlienSpeed * Time.deltaTime);
+                    if (distance > AlienMinDistance)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, AlienSpeed * Time.deltaTime);
+                    }
+                    /*else if (distance < AlienMaxDist) Si Alien Backwards et rentre dans un mur, il le traverse.
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -AlienSpeed * Time.deltaTime);
+                        transform.LookAt(player.transform);
+                    }*/
+                    else
+                    {
+                        StartCoroutine(AlienShoot());
+                    }
                 }
-                /*else if (distance < AlienMaxDist) Si Alien Backwards et rentre dans un mur, il le traverse.
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, -AlienSpeed * Time.deltaTime);
-                    transform.LookAt(player.transform);
-                }*/ else
-                {
-                    StartCoroutine(AlienShoot());
-                }
+
+                
 
 
             }
@@ -100,17 +129,25 @@ public class T4_EnemyController : MonoBehaviour
                 
             }
 
+
+
+
             if (enemyName == "Squelette")
             {
-                if (distance > SqueletteMinDistance)
+
+                if (!isStun)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, player.transform.position, SqueletteSpeed * Time.deltaTime);
-                    
+                    if (distance > SqueletteMinDistance)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, player.transform.position, SqueletteSpeed * Time.deltaTime);
+
+                    }
+                    else
+                    {
+                        StartCoroutine(SqueletteHit());
+                    }
                 }
-                else
-                {
-                    StartCoroutine(SqueletteHit());
-                }
+                
             }
         }
         
@@ -118,6 +155,52 @@ public class T4_EnemyController : MonoBehaviour
 
         
     }
+
+    /*void Stun()
+    {
+        if (isStun)
+        {
+            return;
+        }else
+        {
+            isStun = true;
+            //StartCoroutine(StunTime());
+
+            /*float time = 0;
+
+            while (time < stunTime)
+            {
+                time += Time.deltaTime;
+                
+
+            }
+            isStun = false;
+        }
+
+    }
+
+    IEnumerator StunTime()
+    {
+        
+        float time = 0;
+
+        while (time < stunTime)
+        {
+            time += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+
+        }
+
+        if (time >= stunTime)
+        {
+            isStun = false;
+        }
+        //isStun = false;
+        
+        yield return new WaitForSeconds(0.1f);
+        
+
+    }*/
 
 
     IEnumerator AlienShoot()
@@ -257,11 +340,19 @@ public class T4_EnemyController : MonoBehaviour
 
     public void TakeDamage(float damageValue)
     {
-        currentLife -= damageDeal;
+        /*currentLife -= damageDeal;
 
         if (currentLife <= 0)
         {
             Destroy(gameObject);
+        }*/
+
+        if (isStun)
+        {
+            return;
+        } else
+        {
+            isStun = true;
         }
 
     }
