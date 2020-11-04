@@ -89,51 +89,60 @@ public class T4_PlayerMovement : MonoBehaviour
         mouse_pos.x = mouse_pos.x - object_pos.x;
         mouse_pos.y = mouse_pos.y - object_pos.y;
         float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
-        
-        if (angle < 90 && angle > -90)
-        {
-            if (movVertical < 0)
-            {
-                anim.SetFloat("Vertical", -movVertical);
-            } else
-            {
-                anim.SetFloat("Vertical", movVertical);
-            }
 
-            
-            
-            /*if (movVertical > 0)
-            {
-                anim.SetFloat("Vertical", movVertical);
-                Debug.Log("haut");
-            } else
-            {
-                anim.SetFloat("Vertical", -1);
-                Debug.Log(movVertical);
-            }*/
-        }
-            
-        else
-        {
 
-            if (movVertical < 0)
-            {
-                anim.SetFloat("Vertical", movVertical);
-            }
-            else
-            {
-                anim.SetFloat("Vertical", -movVertical);
-            }
+        if (movHorizontal + movVertical == 0)
+        {
+            anim.SetBool("isWalking", false);
+        } else
+        {
+            anim.SetBool("isWalking", true);
         }
 
-        
-            
 
 
+        if (angle < 22.5 && angle >= -22.5)
+        {
+            anim.SetFloat("Horizontal", 0);
+            anim.SetFloat("Vertical", 1);
+
+        } else if (angle < -22.5 && angle >= -67.5)
+        {
+            anim.SetFloat("Horizontal", 0.5f);
+            anim.SetFloat("Vertical", 0.5f);
+        }
+        else if (angle < -67.5 && angle >= -112.5)
+        {
+            anim.SetFloat("Horizontal", 1);
+            anim.SetFloat("Vertical", 0);
+        }
+        else if (angle < -112.5 && angle >= -157.5)
+        {
+            anim.SetFloat("Horizontal", 0.5f);
+            anim.SetFloat("Vertical", -0.5f);
+        }
+        else if (angle < -157.5 && angle >= -202.5)
+        {
+            anim.SetFloat("Horizontal", 0);
+            anim.SetFloat("Vertical", -1);
+        }
+        else if (angle < -202.5 && angle >= -247.5)
+        {
+            anim.SetFloat("Horizontal", -0.5f);
+            anim.SetFloat("Vertical", -0.5f);
+        }
+        else if (angle < -247.5 || angle >= 67.5)
+        {
+            anim.SetFloat("Horizontal", -1);
+            anim.SetFloat("Vertical", 0);
+        }
+        else if (angle < 67.5 && angle >= 22.5)
+        {
+            anim.SetFloat("Horizontal", -0.5f);
+            anim.SetFloat("Vertical", 0.5f);
+        }
 
 
-        //anim.SetFloat("Horizontal", movHorizontal);
-        //anim.SetFloat("Vertical", movVertical);
 
         if (rb.velocity.x != 0)
         {
