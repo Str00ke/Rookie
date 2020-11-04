@@ -17,6 +17,8 @@ public class T4_PlayerController : MonoBehaviour
     //T4_FlameThrower flameScript;
     //GameObject flameObj;
 
+    public GameObject dirMouse;
+
     float reloadTime = 2.0f;
 
     public float damageDeal;
@@ -117,7 +119,13 @@ public class T4_PlayerController : MonoBehaviour
 
         characters[characterIndex].transform.position = transform.position;
 
-        
+        /*Vector3 mouse_pos = Input.mousePosition;
+
+        Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
+        mouse_pos.x = mouse_pos.x - object_pos.x;
+        mouse_pos.y = mouse_pos.y - object_pos.y;
+        float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));*/
 
     }
 
@@ -172,6 +180,7 @@ public class T4_PlayerController : MonoBehaviour
         
         GetComponent<T4_PlayerMovement>().isFirstAttack = true;
         GetComponent<T4_PlayerMovement>().isCouroutineInactive = false;
+        GetComponent<T4_PlayerMovement>().ChangeCharaAnim();
 
     }
 
@@ -181,13 +190,13 @@ public class T4_PlayerController : MonoBehaviour
         {
             
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
-            bulletRotation = Quaternion.Euler(transform.rotation.eulerAngles.x + 90, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z);
+            bulletRotation = Quaternion.Euler(dirMouse.transform.rotation.eulerAngles.x + 90, dirMouse.transform.rotation.eulerAngles.y + 90, dirMouse.transform.rotation.eulerAngles.z);
             //Instantiate(missile, transform.position, bulletRotation);
             //GetComponent<T4_PlayerMovement>().isFirstAttack = false;
         } else
         {
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
-            bulletRotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + 90, transform.rotation.eulerAngles.z);
+            bulletRotation = Quaternion.Euler(dirMouse.transform.rotation.eulerAngles.x, dirMouse.transform.rotation.eulerAngles.y + 90, dirMouse.transform.rotation.eulerAngles.z);
             Instantiate(bullet, transform.position, bulletRotation);
         }
         

@@ -52,13 +52,16 @@ public class T4_BulletBehavior : MonoBehaviour
         if (hitName == "Ennemy")
         {
             GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, other.gameObject);
-        }
-
-
-        if (hitName == "Player")
+        } else if (hitName == "Player")
         {
             GetComponent<T4_PlayerController>().TakeDamage(FindObjectOfType<T4_EnemyController>().damageDeal);
+        } else
+        {
+            Destroy(gameObject);
         }
+
+
+        
 
     }
 }

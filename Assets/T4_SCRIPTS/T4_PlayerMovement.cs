@@ -16,6 +16,8 @@ public class T4_PlayerMovement : MonoBehaviour
     bool isHitting = false;
     //bool isPicked = true;
     public GameObject cacPos;
+    public Animator anim;
+    public GameObject dirMouse;
     
     
     public bool isFirstAttack;
@@ -31,6 +33,8 @@ public class T4_PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         isFirstAttack = true;
+        anim = GetComponentInChildren<Animator>();
+        Debug.Log(anim.gameObject);
     }
 
 
@@ -80,6 +84,8 @@ public class T4_PlayerMovement : MonoBehaviour
         movHorizontal = Input.GetAxis("Horizontal");
         movement = new Vector3(movHorizontal, 0, movVertical);
         rb.MovePosition(rb.position + movement * 5 * Time.fixedDeltaTime);
+        anim.SetFloat("Horizontal", movHorizontal);
+        anim.SetFloat("Vertical", movVertical);
 
         if (rb.velocity.x != 0)
         {
@@ -99,10 +105,11 @@ public class T4_PlayerMovement : MonoBehaviour
 
             if (charaPool.characterIndex == 0)
             {
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit))
+                if (Physics.Raycast(transform.position, dirMouse.transform.TransformDirection(Vector3.right), out hit))
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * hit.distance, Color.yellow);
+                    Debug.DrawRay(transform.position, dirMouse.transform.TransformDirection(Vector3.right) * hit.distance, Color.yellow);
                     //Debug.Log(hit.distance);
+                    //Debug.Log(hit.collider.gameObject.name);
                     if (isCouroutineInactive)
                     {
                         hasHit = true;
@@ -112,9 +119,9 @@ public class T4_PlayerMovement : MonoBehaviour
                 }
             } else if (charaPool.characterIndex == 2)
             {
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit))
+                if (Physics.Raycast(transform.position, dirMouse.transform.TransformDirection(Vector3.left), out hit))
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.left) * hit.distance, Color.yellow);
+                    Debug.DrawRay(transform.position, dirMouse.transform.TransformDirection(Vector3.left) * hit.distance, Color.yellow);
                     //Debug.Log(hit.distance);
                     if (isCouroutineInactive)
                     {
@@ -144,6 +151,12 @@ public class T4_PlayerMovement : MonoBehaviour
 
     }
 
+    public void ChangeCharaAnim()
+    {
+        anim = GetComponentInChildren<Animator>();
+        //Debug.Log(anim.gameObject);
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -171,7 +184,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
             if (hitName == "Ennemy")
             {
-                GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, hit.gameObject);
+                
                 StartCoroutine(StompKnockback(Vector3.Distance(transform.position, hit.transform.position), hit.gameObject));
             }
 
@@ -209,6 +222,7 @@ public class T4_PlayerMovement : MonoBehaviour
     
     IEnumerator StompKnockback(float distance, GameObject hit)
     {
+        //Debug.Log(hit.gameObject);
         float maxDist = 5.0f;
         float actualDist = distance;
         float speed = -(actualDist - maxDist);
@@ -218,13 +232,13 @@ public class T4_PlayerMovement : MonoBehaviour
         {
             transform.position = new Vector3(lockPos.x, lockPos.y, lockPos.z);
             hit.transform.position = Vector3.MoveTowards(hit.transform.position, transform.position, -(speed) * 7 * Time.deltaTime);
-            Debug.Log(-(actualDist - maxDist));
+            //Debug.Log(-(actualDist - maxDist));
             actualDist = Vector3.Distance(transform.position, hit.transform.position);
             //Debug.Log(hit.transform.position);
             //Debug.Log(actualDist);
             yield return new WaitForSeconds(0.01f);
         }
-
+        GetComponent<T4_PlayerController>().DealDamage(GetComponent<T4_PlayerController>().damageDeal, hit.gameObject);
         yield return new WaitForSeconds(0.1f);
     }
 
@@ -236,7 +250,10 @@ public class T4_PlayerMovement : MonoBehaviour
 
         int speed;
 
-        if (hit.gameObject.name == "Ennemy")
+        string[] splitName = hit.gameObject.name.Split(char.Parse("_"));
+        string hitName = splitName[0];
+
+        if (hitName == "Ennemy")
         {
             speed = 200;
         } else
@@ -251,7 +268,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
         if (charaPool.characterIndex == 0)
         {
-            if (distValue > 10 && hit.gameObject.name != "Ennemy")
+            if (distValue > 10 && hitName != "Ennemy")
             {
 
 
@@ -269,7 +286,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
 
             }
-            else if (distValue > 15 && hit.gameObject.name == "Ennemy")
+            else if (distValue > 15 && hitName == "Ennemy")
             {
                 while (distance > 1f)
                 {
