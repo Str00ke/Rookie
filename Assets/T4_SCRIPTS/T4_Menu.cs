@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Menu : MonoBehaviour
+public class T4_Menu : MonoBehaviour
 {
     // Start is called before the first frame update
     public Camera cameraZoom;
