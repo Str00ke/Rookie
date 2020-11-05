@@ -15,6 +15,7 @@ public class T4_PlayerController : MonoBehaviour
     T4_PlayerMovement playerMovement;
     Dictionary<GameObject, float> flamesDict = new Dictionary<GameObject, float>();
     public float flameRecoverTime;
+    int score;
 
     public GameObject dirMouse;
 

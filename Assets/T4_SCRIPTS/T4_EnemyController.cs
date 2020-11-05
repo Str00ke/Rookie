@@ -14,6 +14,7 @@ public class T4_EnemyController : MonoBehaviour
     Animator anim;
     bool isDead = false;
     public GameObject bulletDir;
+    public GameObject sword;
     float angle;
     float Horizontal;
     float Vertical;
@@ -344,13 +345,52 @@ public class T4_EnemyController : MonoBehaviour
         distance = Vector3.Distance(player.transform.position, transform.position);
         while (distance <= OniMinDistance)
         {
+            
+            
             anim.SetTrigger("Charge");
+
+
+
+
+            if (Vertical == 0)
+            {
+                if (Horizontal == -1)
+                {
+                    
+                    sword.transform.position = transform.position + (new Vector3(1, 0, 0) * -(OniAttackRadius));
+                }
+                else
+                {
+                    sword.transform.position = transform.position + (new Vector3(1, 0, 0) * (OniAttackRadius));
+                    
+                }
+            }
+            else
+            {
+                if (Vertical == -1)
+                {
+                    sword.transform.position = transform.position + (new Vector3(0, 0, 1) * -(OniAttackRadius));
+                    
+                }
+                else
+                {
+                    sword.transform.position = transform.position + (new Vector3(0, 0, 1) * (OniAttackRadius));
+                    
+                }
+            }
+
+
+            sword.SetActive(true);
+            sword.GetComponent<Animator>().SetTrigger("Attack");
             yield return new WaitForSeconds(OniTimeBeforeAttack);
             //attack
 
-            anim.SetTrigger("Attack");
 
-            yield return new WaitForSeconds(1.0f);
+
+
+            anim.SetTrigger("Attack");
+            
+            yield return new WaitForSeconds(0.3f);
 
             if (Vertical == 0)
             {
@@ -513,7 +553,7 @@ public class T4_EnemyController : MonoBehaviour
     public void TakeDamage(float damageValue)
     {
         currentLife -= damageDeal;
-
+        
         Debug.Log("Enemy life: " + currentLife);
 
         if (currentLife <= 0)
@@ -526,8 +566,25 @@ public class T4_EnemyController : MonoBehaviour
             return;
         } else
         {
+            StartCoroutine(HitBlink());
             isStun = true;
         }
+
+    }
+
+    IEnumerator HitBlink()
+    {
+
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.5f);
+        yield return new WaitForSeconds(0.10f);
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
+        yield return new WaitForSeconds(0.10f);
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 0.5f);
+        yield return new WaitForSeconds(0.10f);
+        sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 1f);
+
+
+
 
     }
 
