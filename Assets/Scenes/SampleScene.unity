@@ -199,7 +199,7 @@ MonoBehaviour:
   - {fileID: 845222860}
   - {fileID: 1443340412}
   characterIndex: 0
-  bullet: {fileID: 3762715259463294731, guid: cf4e8e03c7b3b0740a97f29212ce6e98, type: 3}
+  bullet: {fileID: 7516688392345699040, guid: 013a472ee9f60fd4aaec274c82fba852, type: 3}
   missile: {fileID: 8265739362458577455, guid: abdbd7925e104e144a4bcef4c63fa4d6, type: 3}
   flame: {fileID: 1112530833}
   bulletRotation: {x: 0, y: 0, z: 0, w: 0}

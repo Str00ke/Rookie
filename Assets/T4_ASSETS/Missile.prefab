@@ -128,3 +128,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 10
   enemySpeed: 0
+  impactExplosionAlien: {fileID: 5854143886354953718, guid: 1147577ae7e043b41bb1eca93c4f6d28,
+    type: 3}
