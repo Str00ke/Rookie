@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class T4_PlayerController : MonoBehaviour
@@ -9,14 +10,11 @@ public class T4_PlayerController : MonoBehaviour
     public GameObject bullet;
     public GameObject missile;
     public GameObject flame;
-    //bool isFlameThrowering = false;
-    //bool isInstansiated = false;
     public Quaternion bulletRotation;
     Vector3 bulletPositionOffset;
     T4_PlayerMovement playerMovement;
-    //T4_FlameThrower flameScript;
-    //GameObject flameObj;
-    public GameObject flameCollider;
+    Dictionary<GameObject, float> flamesDict = new Dictionary<GameObject, float>();
+    public float flameRecoverTime;
 
     public GameObject dirMouse;
 
@@ -72,8 +70,8 @@ public class T4_PlayerController : MonoBehaviour
     void Update()
     {
 
-        
 
+        //Debug.Log(flamesDict.ToList().Count);
         
         if (reloadTime > 0)
         {
@@ -102,6 +100,20 @@ public class T4_PlayerController : MonoBehaviour
 
         }
 
+        for (int i = 0; i < flamesDict.ToList().Count; i++)
+        {
+            GameObject go = flamesDict.ElementAt(i).Key;
+            float indexValue = flamesDict.ElementAt(i).Value;
+            indexValue -= Time.deltaTime;
+            flamesDict[go] = indexValue;
+            Debug.Log(indexValue);
+            if (indexValue <= 0)
+            {
+                flamesDict.Remove(flamesDict.ElementAt(i).Key);
+            }
+        }
+
+
         if (Input.GetButton("Fire1") && characterIndex == 1)
         {
             bool attack = GetComponent<T4_PlayerMovement>().isFirstAttack;
@@ -109,6 +121,48 @@ public class T4_PlayerController : MonoBehaviour
             if (!attack)
             {
                 flame.SetActive(true);
+                /*if (!isFlame)
+                {
+                    StartCoroutine(FlameCollider());
+                    
+                }*/
+
+                
+
+                Collider[] flames = Physics.OverlapBox(flame.transform.position, flame.transform.localScale / 2);
+
+                foreach (Collider burn in flames)
+                {
+                    string[] splitName = burn.name.Split(char.Parse("_"));
+                    string burnName = splitName[0];
+                    if (burnName == "Ennemy")
+                    {
+                        if (!flamesDict.ContainsKey(burn.gameObject))
+                        {
+                            Debug.Log("Added");
+                            flamesDict.Add(burn.gameObject, flameRecoverTime);
+                            DealDamage(false, burn.gameObject);
+                        }
+                        
+                    }
+
+
+                    
+
+
+
+                    /*string[] splitName = burn.name.Split(char.Parse("_"));
+                    string burnName = splitName[0];
+                    if (burnName == "Ennemy")
+                    {
+                        DealDamage(false, burn.gameObject);
+                    }*/
+
+
+
+
+                }
+
             }
             
 
@@ -116,69 +170,31 @@ public class T4_PlayerController : MonoBehaviour
         {
             flame.SetActive(false);
         }
-        /*else if (isFlameThrowering && !Input.GetButton("Fire1"))
-        {
-            isFlameThrowering = false;
-            
-
-        }*/
-
-        /*if (isFlameThrowering && !isInstansiated)
-        {
-            flameObj = Instantiate(flame, new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.rotation);
-            flameScript = FindObjectOfType<T4_FlameThrower>();
-            isInstansiated = true;
-        } else if (isInstansiated && !isFlameThrowering)
-        {
-
-            Destroy(flameObj);
-            //flameScript.Destroy();
-            
-            isInstansiated = false;
-        }
-
-        if (isFlameThrowering && isInstansiated)
-        {
-            flameObj.transform.position = new Vector3(transform.position.x + 1, transform.position.y + transform.rotation.y, transform.position.z + 1);
-            //flameObj.transform.rotation = transform.rotation;
-            Debug.Log(transform.rotation.y);
-
-            flameObj.transform.LookAt(transform, Vector3.left);
-
-        }*/
+        
 
         characters[characterIndex].transform.position = transform.position;
 
-        /*Vector3 mouse_pos = Input.mousePosition;
-
-        Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
-        mouse_pos.x = mouse_pos.x - object_pos.x;
-        mouse_pos.y = mouse_pos.y - object_pos.y;
-        float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));*/
-
-
-        //if (flameCollider.GetComponent<MeshCollider>())
-            //Debug.Log("yesy");
-        //flameCollider = FindObjectOfType<QuadCreator>().gameObject.GetComponent<MeshCollider>();
-
-        flameCollider.transform.position = transform.position;
-
-        /*if (flame.activeSelf)
-        {
-            Vector3 mouse_pos = Input.mousePosition;
-
-            Vector3 object_pos = Camera.main.WorldToScreenPoint(transform.position);
-            mouse_pos.x = mouse_pos.x - object_pos.x;
-            mouse_pos.y = mouse_pos.y - object_pos.y;
-            float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
-            flame.transform.rotation = Quaternion.Euler(new Vector3(0, -angle, 0));
-            
-        }*/
+        
+        
 
     }
 
-    
+    /*private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(100, 100, 100, 0.5f);
+        Gizmos.DrawCube(flame.transform.position, flame.transform.localScale / 2);
+    }*/
+
+    /*IEnumerator FlameCollider()
+    {
+        Debug.Log("Start");
+        while (isFlame)
+        {
+            Debug.Log("flaamme");
+        }
+
+        yield return new WaitForSeconds(0.1f);
+    }*/
 
     private void FixedUpdate()
     {
@@ -256,7 +272,8 @@ public class T4_PlayerController : MonoBehaviour
             
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
             bulletRotation = Quaternion.Euler(dirMouse.transform.rotation.eulerAngles.x + 90, dirMouse.transform.rotation.eulerAngles.y + 90, dirMouse.transform.rotation.eulerAngles.z);
-            //Instantiate(missile, transform.position, bulletRotation);
+            GameObject go = Instantiate(missile, transform.position, bulletRotation);
+            go.SendMessage("getName", "Player");
             //GetComponent<T4_PlayerMovement>().isFirstAttack = false;
         } else
         {
@@ -272,8 +289,8 @@ public class T4_PlayerController : MonoBehaviour
 
     public void TakeDamage(float damageValue)
     {
-        currentLife -= damageValue;
-
+        //currentLife -= damageValue;
+        currentLife--;
         Debug.Log("Player life: " + currentLife);
 
         if (currentLife <= 0)

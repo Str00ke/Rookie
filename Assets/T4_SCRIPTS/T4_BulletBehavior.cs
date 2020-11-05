@@ -14,6 +14,7 @@ public class T4_BulletBehavior : MonoBehaviour
     string hitName;
     string shooterName;
     
+    
 
 
     private void Awake()
@@ -51,12 +52,18 @@ public class T4_BulletBehavior : MonoBehaviour
         {
             direction = Vector3.up;
         }
-        else
+        else if (gameObject.name == "Bullet(Clone)" && shooterName == "Ennemy")
+        {
+            direction = -Vector3.forward;
+        } else
         {
             direction = Vector3.forward;
         }
         transform.Translate(direction * speed * Time.deltaTime);
+
         
+
+
     }
 
 

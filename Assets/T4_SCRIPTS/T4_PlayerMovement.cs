@@ -18,8 +18,10 @@ public class T4_PlayerMovement : MonoBehaviour
     public GameObject cacPos;
     public Animator anim;
     public GameObject dirMouse;
-    
-    
+    Transform flame;
+    public float flameXOffset;
+    public float flameZOffset;
+
     public bool isFirstAttack;
     T4_PlayerController charaPool;
 
@@ -34,25 +36,14 @@ public class T4_PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         isFirstAttack = true;
         anim = GetComponentInChildren<Animator>();
+        flame = GetComponent<T4_PlayerController>().flame.transform;
     }
 
 
     private void Update()
     {
 
-        /*if (charaPool.characterIndex == 1 && isFirstAttack)
-        {
-            isPicked = true;
-            transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Debug.Log(transform.position);
-            Debug.Log(Input.mousePosition);
-            transform.position = new Vector3(transform.position.x, transform.position.y - 10, transform.position.z);
-            
-            if (Input.GetButtonUp("Fire1"))
-            {
-                isPicked = false;
-            }
-        }*/
+
 
         if (Input.GetButtonUp("Fire1"))
         {
@@ -77,7 +68,10 @@ public class T4_PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
-        
+        if (transform.position.y != 0)
+        {
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        }
         movVertical = Input.GetAxis("Vertical");
         movHorizontal = Input.GetAxis("Horizontal");
         movement = new Vector3(movHorizontal, 0, movVertical);
@@ -105,41 +99,57 @@ public class T4_PlayerMovement : MonoBehaviour
         {
             anim.SetFloat("Horizontal", 0);
             anim.SetFloat("Vertical", 1);
+            flame.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + flameZOffset);
+            flame.rotation = Quaternion.Euler(0 + 90, 0, 0);
 
         } else if (angle < -22.5 && angle >= -67.5)
         {
             anim.SetFloat("Horizontal", 0.5f);
             anim.SetFloat("Vertical", 0.5f);
+            flame.position = new Vector3(transform.position.x + flameXOffset, transform.position.y, transform.position.z + flameZOffset);
+            flame.rotation = Quaternion.Euler(0 + 90, 45f, 0);
         }
         else if (angle < -67.5 && angle >= -112.5)
         {
             anim.SetFloat("Horizontal", 1);
             anim.SetFloat("Vertical", 0);
+            flame.position = new Vector3(transform.position.x + flameXOffset, transform.position.y, transform.position.z);
+            flame.rotation = Quaternion.Euler(0 + 90, 90f, 0);
         }
         else if (angle < -112.5 && angle >= -157.5)
         {
             anim.SetFloat("Horizontal", 0.5f);
             anim.SetFloat("Vertical", -0.5f);
+            flame.position = new Vector3(transform.position.x + flameXOffset, transform.position.y, transform.position.z - flameZOffset);
+            flame.rotation = Quaternion.Euler(0 + 90, 135f, 0);
         }
         else if (angle < -157.5 && angle >= -202.5)
         {
             anim.SetFloat("Horizontal", 0);
             anim.SetFloat("Vertical", -1);
+            flame.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - flameZOffset);
+            flame.rotation = Quaternion.Euler(0 + 90, 180f, 0);
         }
         else if (angle < -202.5 && angle >= -247.5)
         {
             anim.SetFloat("Horizontal", -0.5f);
             anim.SetFloat("Vertical", -0.5f);
+            flame.position = new Vector3(transform.position.x - flameXOffset, transform.position.y, transform.position.z - flameZOffset);
+            flame.rotation = Quaternion.Euler(0 + 90, 225f, 0);
         }
         else if (angle < -247.5 || angle >= 67.5)
         {
             anim.SetFloat("Horizontal", -1);
             anim.SetFloat("Vertical", 0);
+            flame.position = new Vector3(transform.position.x - flameXOffset, transform.position.y, transform.position.z);
+            flame.rotation = Quaternion.Euler(0 + 90, 270, 0);
         }
         else if (angle < 67.5 && angle >= 22.5)
         {
             anim.SetFloat("Horizontal", -0.5f);
             anim.SetFloat("Vertical", 0.5f);
+            flame.position = new Vector3(transform.position.x - flameXOffset, transform.position.y, transform.position.z + flameZOffset);
+            flame.rotation = Quaternion.Euler(0 + 90, 315f, 0);
         }
 
 
@@ -216,7 +226,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        /*Gizmos.color = Color.yellow;
         Gizmos.color = new Color(0, 255, 0, 0.25f);
         if (charaPool.characterIndex == 1 && isFirstAttack)
             Gizmos.DrawSphere(transform.position, 5.0f);
@@ -225,8 +235,8 @@ public class T4_PlayerMovement : MonoBehaviour
             Gizmos.color = new Color(255, 0, 0, 0.25f);
             Gizmos.DrawSphere(cacPos.transform.position, 2.0f);
         }
-
-        Gizmos.color = new Color(0, 0, 255, 0.25f);
+        
+        Gizmos.color = new Color(0, 0, 255, 0.25f);*/
         //Gizmos.DrawSphere(cacPos)
 
     }
