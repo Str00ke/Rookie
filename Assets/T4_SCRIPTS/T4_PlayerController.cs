@@ -35,6 +35,13 @@ public class T4_PlayerController : MonoBehaviour
     public float vomiFirstDamageValue;
     public float vomiBaseDamageValue;
 
+    #region Audio
+    public GameObject vomiShootAudio;
+    public GameObject vomiShootSpeAudio;
+
+    public GameObject colèreFlameAudio;
+    #endregion
+
     private void Awake()
     {
         playerMovement = FindObjectOfType<T4_PlayerMovement>();
@@ -128,12 +135,8 @@ public class T4_PlayerController : MonoBehaviour
                 if (!attack)
                 {
                     flame.SetActive(true);
-                    /*if (!isFlame)
-                    {
-                        StartCoroutine(FlameCollider());
 
-                    }*/
-
+                    colèreFlameAudio.SetActive(true);//AUDIO//
 
 
                     Collider[] flames = Physics.OverlapBox(flame.transform.position, flame.transform.localScale / 2);
@@ -186,6 +189,7 @@ public class T4_PlayerController : MonoBehaviour
             else
             {
                 flame.SetActive(false);
+                colèreFlameAudio.SetActive(false);//AUDIO//
             }
 
 
@@ -294,12 +298,14 @@ public class T4_PlayerController : MonoBehaviour
             GameObject go = Instantiate(missile, transform.position, bulletRotation);
             go.SendMessage("getName", "Player");
             //GetComponent<T4_PlayerMovement>().isFirstAttack = false;
+            vomiShootSpeAudio.SetActive(true);//AUDIO//
         } else
         {
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
             bulletRotation = Quaternion.Euler(dirMouse.transform.rotation.eulerAngles.x, dirMouse.transform.rotation.eulerAngles.y + 90, dirMouse.transform.rotation.eulerAngles.z);
             GameObject go = Instantiate(bullet, transform.position, bulletRotation);
             go.SendMessage("getName", "Player");
+            vomiShootAudio.SetActive(true);//AUDIO//
         }
         
         

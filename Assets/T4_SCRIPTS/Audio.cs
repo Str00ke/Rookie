@@ -11,7 +11,5 @@ public class Audio : MonoBehaviour
 
         AudioSource audioSource = audioSources[Random.Range(0, audioSources.Length)];
         audioSource.Play();
-
-        Object.Destroy(this, 1.5f);
     }
 }
