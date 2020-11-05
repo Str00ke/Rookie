@@ -13,7 +13,7 @@ public class T4_BulletBehavior : MonoBehaviour
     T4_PlayerMovement playerMovement;
     string hitName;
     string shooterName;
-    public GameObject impactExplosionAlien;
+    public GameObject impactExplosion;
     
     
 
@@ -62,9 +62,6 @@ public class T4_BulletBehavior : MonoBehaviour
         }
         transform.Translate(direction * speed * Time.deltaTime);
 
-        
-
-
     }
 
 
@@ -83,16 +80,15 @@ public class T4_BulletBehavior : MonoBehaviour
         if (hitName == "Ennemy" && shooterName != "Ennemy")
         {
             FindObjectOfType<T4_PlayerController>().DealDamage(false, other.gameObject);
-            Instantiate(impactExplosionAlien, transform.position, new Quaternion(0, 0, 0, 0), null);
+            Instantiate(impactExplosion, transform.position, new Quaternion(0, 0, 0, 0), null);
             Destroy(gameObject);
         } else if (hitName == "Player" && shooterName != "Player")
         {
-
             FindObjectOfType<T4_EnemyController>().DealDamage(FindObjectOfType<T4_EnemyController>().damageDeal);
+            Instantiate(impactExplosion, transform.position, new Quaternion(0, 0, 0, 0), null);
             Destroy(gameObject);
         } else if (other.gameObject.name == "Wall")
         {
-            Instantiate(impactExplosionAlien, transform.position, new Quaternion(0,0,0,0), null);
             Destroy(gameObject);
         }
 

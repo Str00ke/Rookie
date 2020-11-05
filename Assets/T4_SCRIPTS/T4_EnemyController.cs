@@ -42,6 +42,11 @@ public class T4_EnemyController : MonoBehaviour
     public float AlienBtwReload;
     public float AlienMaxDist;
     public float AlienScale;
+    #region Alien Audio
+    public GameObject alienChargeAudio;
+    public GameObject alienShootAudio;
+    public GameObject alienDeathAudio;
+    #endregion
 
     [Header("Oni")]
     public float OniSpeed;
@@ -51,6 +56,12 @@ public class T4_EnemyController : MonoBehaviour
     public float OniAttackRadius;
     public GameObject OniAttackRange;
     public float OniScale;
+    #region Oni Audio
+    public GameObject oniChargeAudio;
+    public GameObject oniHitAudio;
+    public GameObject oniMissAudio;
+    public GameObject oniDeathAudio;
+    #endregion
 
     [Header("Squelette")]
     public float SqueletteSpeed;
@@ -60,6 +71,10 @@ public class T4_EnemyController : MonoBehaviour
     public float SqueletteAttackRadius;
     public GameObject SqueletteAttackRange;
     public float SqueletteScale;
+    #region Squelette Audio
+    public GameObject squeletteHitAudio;
+    public GameObject squeletteDeathAudio;
+    #endregion
 
 
 
@@ -73,7 +88,7 @@ public class T4_EnemyController : MonoBehaviour
         anim = GetComponent<Animator>();
     }*/
 
-    
+
     void Start()
     {
 
@@ -308,7 +323,8 @@ public class T4_EnemyController : MonoBehaviour
     {
         anim.SetBool("isIdle", true);
         anim.SetBool("isCharging", true);
-        
+        alienChargeAudio.SetActive(true);//AUDIO//
+
         //Maybe Bacwards if player too near?
         isAttacking = true;
         //transform.position = transform.position;
@@ -328,6 +344,7 @@ public class T4_EnemyController : MonoBehaviour
                 //Debug.Log(bullet.transform.rotation);
                 //bulletDir.transform.rotation = Quaternion.RotateTowards(transform.rotation, player.transform.rotation, 1);
                 GameObject go = Instantiate(bullet, transform.position, /*Quaternion.Euler(bulletDir.transform.rotation.eulerAngles.x, -angle, bulletDir.transform.rotation.eulerAngles.z)*/ Quaternion.Euler(0, -angle, 0));
+                alienShootAudio.SetActive(true);//AUDIO//
                 go.SendMessage("getName", "Ennemy");
                 yield return new WaitForSeconds(AlienBtwShots);
             }
@@ -357,6 +374,7 @@ public class T4_EnemyController : MonoBehaviour
             
             
             anim.SetTrigger("Charge");
+            oniChargeAudio.SetActive(true);//AUDIO//
 
 
 
@@ -398,7 +416,7 @@ public class T4_EnemyController : MonoBehaviour
 
 
             anim.SetTrigger("Attack");
-            
+
             yield return new WaitForSeconds(0.3f);
 
             if (Vertical == 0)
@@ -430,15 +448,26 @@ public class T4_EnemyController : MonoBehaviour
             
             Debug.Log(playerHit);
 
-            
+            bool playerIsHit = false;//PLAYER HIT SET//
 
             foreach (Collider hit in playerHit)
             {
                 if (hit.name == "Player")
                 {
                     DealDamage(damageDeal);
+                    playerIsHit = true;//PLAYER IS HIT//
                 }
             }
+
+            if (playerIsHit == false)//PLAYER HIT CHECK
+            {
+                oniMissAudio.SetActive(true);//AUDIO//
+            }
+            else
+            {
+                oniHitAudio.SetActive(true);//AUDIO//
+            }
+
 
             
             yield return new WaitForSeconds(OniAttackCooldown);
@@ -479,16 +508,24 @@ public class T4_EnemyController : MonoBehaviour
             //attack
             anim.SetTrigger("Attack");
             Collider[] playerHit = Physics.OverlapSphere(transform.position, SqueletteAttackRadius);
+            bool playerIsHit = false;//PLAYER HIT SET//
             foreach (Collider hit in playerHit)
             {
                 if (hit.name == "Player")
                 {
                     //Debug.Log(hit.gameObject.name + " Touché!");
                     DealDamage(damageDeal);
+                    playerIsHit = true;//PLAYER IS HIT//
                 }
             }
             yield return new WaitForSeconds(SqueletteAttackCooldown);
             distance = Vector3.Distance(player.transform.position, transform.position);
+
+            if (playerIsHit == true)//PLAYER HIT CHECK
+            {
+                squeletteHitAudio.SetActive(true);//AUDIO//
+            }
+
         }
 
         yield return new WaitForSeconds(0.3f);
@@ -601,8 +638,20 @@ public class T4_EnemyController : MonoBehaviour
     {
         isDead = true;
         anim.SetTrigger("Death");
+        if (enemyName == "Oni")//NAME CHECK//
+        {
+            oniDeathAudio.SetActive(true);//AUDIO//
+        }
+        else if (enemyName == "Alien")
+        {
+            alienDeathAudio.SetActive(true);//AUDIO//
+        }
+        else if (enemyName == "Squelette")
+        {
+            squeletteDeathAudio.SetActive(true);//AUDIO//
+        }
 
-        yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSeconds(5.0f);
         Destroy(gameObject);
     }
 

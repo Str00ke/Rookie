@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6994898963725060593}
   - component: {fileID: 9142606008218567931}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: Bullet Alien
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpeed: 25
   enemySpeed: 15
-  impactExplosionAlien: {fileID: 5854143886354953718, guid: 1147577ae7e043b41bb1eca93c4f6d28,
+  impactExplosion: {fileID: 5854143886354953718, guid: 1147577ae7e043b41bb1eca93c4f6d28,
     type: 3}
 --- !u!65 &9142606008218567931
 BoxCollider:
