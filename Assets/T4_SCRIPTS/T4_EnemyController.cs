@@ -66,16 +66,22 @@ public class T4_EnemyController : MonoBehaviour
 
 
 
-    private void Awake()
+    /*private void Awake()
     {
         player = FindObjectOfType<T4_PlayerController>().gameObject;
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-    }
+    }*/
 
     
     void Start()
     {
+
+
+        player = FindObjectOfType<T4_PlayerController>().gameObject;
+        sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+
         currentLife = MaxLife;
 
         string[] splitName = gameObject.name.Split(char.Parse("_"));
@@ -87,6 +93,8 @@ public class T4_EnemyController : MonoBehaviour
     
     void Update()
     {
+        Debug.Log(player.transform.position);
+
         Vector3 player_pos = player.transform.position;
 
 
@@ -226,7 +234,7 @@ public class T4_EnemyController : MonoBehaviour
             if (!isAttacking)
             {
 
-                if (enemyName == "Alien") //Maybe Bacwards if player too near?
+                if (enemyName == "Alien" || enemyName == "Alien(Clone)") //Maybe Bacwards if player too near?
                 {
                     if (!isStun)
                     {
@@ -234,6 +242,7 @@ public class T4_EnemyController : MonoBehaviour
                         {
                             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, AlienSpeed * Time.deltaTime);
                             anim.SetBool("isIdle", false);
+                            Debug.Log(transform.position);
                         }
                         else
                         {
@@ -246,7 +255,7 @@ public class T4_EnemyController : MonoBehaviour
 
                 }
 
-                if (enemyName == "Oni")
+                if (enemyName == "Oni" || enemyName == "Oni(Clone)")
                 {
 
                     if (distance > OniMinDistance)
@@ -265,7 +274,7 @@ public class T4_EnemyController : MonoBehaviour
 
 
 
-                if (enemyName == "Squelette")
+                if (enemyName == "Squelette" || enemyName == "Squelette(Clone)")
                 {
 
                     if (!isStun)

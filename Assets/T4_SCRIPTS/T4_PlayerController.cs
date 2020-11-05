@@ -13,9 +13,8 @@ public class T4_PlayerController : MonoBehaviour
     public Quaternion bulletRotation;
     Vector3 bulletPositionOffset;
     T4_PlayerMovement playerMovement;
-    Dictionary<GameObject, float> flamesDict = new Dictionary<GameObject, float>();
+    Dictionary<int, float> flamesDict = new Dictionary<int, float>();
     public float flameRecoverTime;
-    int score;
 
     public GameObject dirMouse;
 
@@ -72,7 +71,7 @@ public class T4_PlayerController : MonoBehaviour
     {
 
 
-        //Debug.Log(flamesDict.ToList().Count);
+        Debug.Log(flamesDict.ToList().Count);
         
         if (reloadTime > 0)
         {
@@ -103,15 +102,18 @@ public class T4_PlayerController : MonoBehaviour
 
         for (int i = 0; i < flamesDict.ToList().Count; i++)
         {
-            GameObject go = flamesDict.ElementAt(i).Key;
+            int ID = flamesDict.ElementAt(i).Key;
             float indexValue = flamesDict.ElementAt(i).Value;
+            //Debug.Log(go);
             indexValue -= Time.deltaTime;
-            flamesDict[go] = indexValue;
-            Debug.Log(indexValue);
+            flamesDict[ID] = indexValue;
+            //Debug.Log(indexValue);
             if (indexValue <= 0)
             {
                 flamesDict.Remove(flamesDict.ElementAt(i).Key);
             }
+
+
         }
 
 
@@ -138,11 +140,19 @@ public class T4_PlayerController : MonoBehaviour
                     string burnName = splitName[0];
                     if (burnName == "Ennemy")
                     {
-                        if (!flamesDict.ContainsKey(burn.gameObject))
+                        if (flamesDict.ContainsKey(burn.gameObject.GetInstanceID()))
                         {
-                            Debug.Log("Added");
-                            flamesDict.Add(burn.gameObject, flameRecoverTime);
+
+                            Debug.Log("Already");
+                            /*flamesDict.Add(burn.gameObject, flameRecoverTime);
+                            Debug.Log("Added: " + burn.gameObject);*/
+                            
+                        } else
+                        {
+                            
+                            flamesDict.Add(burn.gameObject.GetInstanceID(), flameRecoverTime);
                             DealDamage(false, burn.gameObject);
+                            Debug.Log(burn.GetInstanceID());
                         }
                         
                     }
@@ -180,11 +190,11 @@ public class T4_PlayerController : MonoBehaviour
 
     }
 
-    /*private void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = new Color(100, 100, 100, 0.5f);
         Gizmos.DrawCube(flame.transform.position, flame.transform.localScale / 2);
-    }*/
+    }
 
     /*IEnumerator FlameCollider()
     {

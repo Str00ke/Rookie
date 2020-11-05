@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonUp("Fire1"))
+        if (Input.GetButtonUp("Fire2"))
         {
             EndRound();
         }
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
             Vector3 spawnCoords = spawnRand();            
             enemy = Instantiate(enemiesToSpawn[i]) as GameObject;
             enemy.transform.position = spawnCoords;
-            Debug.Log(spawnCoords);
+            //Debug.Log(spawnCoords);
             enemy.transform.parent = enemiesHolder.transform;
             enemy.SetActive(true);
         }
