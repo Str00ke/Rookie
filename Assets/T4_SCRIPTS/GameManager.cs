@@ -19,9 +19,20 @@ public class GameManager : MonoBehaviour
     GameObject[] enemiesToSpawn;
     public GameObject enemiesHolder;
     public GameObject[] enemiesPool;
+    GameObject UI;
+    GameObject PausePanel;
+
+    public bool isPaused;
+
+    private void Awake()
+    {
+        UI = GameObject.Find("_UI");
+        PausePanel = UI.gameObject.transform.GetChild(0).gameObject;
+    }
 
     void Start()
     {
+        PausePanel.SetActive(false);
         /*GameObject childObject = Instantiate(YourObject) as GameObject;
         childObject.transform.parent = parentObject.transform;*/
         player = player.gameObject;
@@ -40,7 +51,28 @@ public class GameManager : MonoBehaviour
         //Debug.Log(test);
         test += 1 / test * 0.75f;
         
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            isPaused = !isPaused;
 
+            Pause(isPaused);
+        }
+
+        
+
+    }
+
+    void Pause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            Time.timeScale = 0;
+            PausePanel.SetActive(true);
+        } else
+        {
+            Time.timeScale = 1;
+            PausePanel.SetActive(false);
+        }
     }
 
     void FirstRound()

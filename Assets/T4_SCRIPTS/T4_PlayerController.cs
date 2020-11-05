@@ -25,6 +25,8 @@ public class T4_PlayerController : MonoBehaviour
     public float maxLife;
     public float currentLife;
 
+    GameManager gameManager;
+
     [Header("CharactersDamageValue")]
     public float joieFirstDamageValue;
     public float joieBaseDamageValue;
@@ -37,7 +39,7 @@ public class T4_PlayerController : MonoBehaviour
     {
         playerMovement = FindObjectOfType<T4_PlayerMovement>();
         flame.SetActive(false);
-        
+        gameManager = FindObjectOfType<GameManager>();
     }
 
 
@@ -70,123 +72,129 @@ public class T4_PlayerController : MonoBehaviour
     void Update()
     {
 
-
-        Debug.Log(flamesDict.ToList().Count);
-        
-        if (reloadTime > 0)
+        if (!gameManager.isPaused)
         {
-            reloadTime -= Time.deltaTime;
-        }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ChangeCharacter(1);
-        }
+            Debug.Log(flamesDict.ToList().Count);
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            ChangeCharacter(-1);
-        }
-
-        if (Input.GetButtonDown("Fire1") && characterIndex == 2)
-        {
-            if (reloadTime <= 0)
+            if (reloadTime > 0)
             {
-                Shoot(playerMovement.isFirstAttack);
-                reloadTime = 2.0f;
-            }
-            
-                
-
-        }
-
-        for (int i = 0; i < flamesDict.ToList().Count; i++)
-        {
-            int ID = flamesDict.ElementAt(i).Key;
-            float indexValue = flamesDict.ElementAt(i).Value;
-            //Debug.Log(go);
-            indexValue -= Time.deltaTime;
-            flamesDict[ID] = indexValue;
-            //Debug.Log(indexValue);
-            if (indexValue <= 0)
-            {
-                flamesDict.Remove(flamesDict.ElementAt(i).Key);
+                reloadTime -= Time.deltaTime;
             }
 
-
-        }
-
-
-        if (Input.GetButton("Fire1") && characterIndex == 1)
-        {
-            bool attack = GetComponent<T4_PlayerMovement>().isFirstAttack;
-
-            if (!attack)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                flame.SetActive(true);
-                /*if (!isFlame)
+                ChangeCharacter(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                ChangeCharacter(-1);
+            }
+
+            if (Input.GetButtonDown("Fire1") && characterIndex == 2)
+            {
+                if (reloadTime <= 0)
                 {
-                    StartCoroutine(FlameCollider());
-                    
-                }*/
+                    Shoot(playerMovement.isFirstAttack);
+                    reloadTime = 2.0f;
+                }
 
-                
 
-                Collider[] flames = Physics.OverlapBox(flame.transform.position, flame.transform.localScale / 2);
 
-                foreach (Collider burn in flames)
+            }
+
+            for (int i = 0; i < flamesDict.ToList().Count; i++)
+            {
+                int ID = flamesDict.ElementAt(i).Key;
+                float indexValue = flamesDict.ElementAt(i).Value;
+                //Debug.Log(go);
+                indexValue -= Time.deltaTime;
+                flamesDict[ID] = indexValue;
+                //Debug.Log(indexValue);
+                if (indexValue <= 0)
                 {
-                    string[] splitName = burn.name.Split(char.Parse("_"));
-                    string burnName = splitName[0];
-                    if (burnName == "Ennemy")
+                    flamesDict.Remove(flamesDict.ElementAt(i).Key);
+                }
+
+
+            }
+
+
+            if (Input.GetButton("Fire1") && characterIndex == 1)
+            {
+                bool attack = GetComponent<T4_PlayerMovement>().isFirstAttack;
+
+                if (!attack)
+                {
+                    flame.SetActive(true);
+                    /*if (!isFlame)
                     {
-                        if (flamesDict.ContainsKey(burn.gameObject.GetInstanceID()))
-                        {
+                        StartCoroutine(FlameCollider());
 
-                            Debug.Log("Already");
-                            /*flamesDict.Add(burn.gameObject, flameRecoverTime);
-                            Debug.Log("Added: " + burn.gameObject);*/
-                            
-                        } else
-                        {
-                            
-                            flamesDict.Add(burn.gameObject.GetInstanceID(), flameRecoverTime);
-                            DealDamage(false, burn.gameObject);
-                            Debug.Log(burn.GetInstanceID());
-                        }
-                        
-                    }
-
-
-                    
-
-
-
-                    /*string[] splitName = burn.name.Split(char.Parse("_"));
-                    string burnName = splitName[0];
-                    if (burnName == "Ennemy")
-                    {
-                        DealDamage(false, burn.gameObject);
                     }*/
 
 
 
+                    Collider[] flames = Physics.OverlapBox(flame.transform.position, flame.transform.localScale / 2);
+
+                    foreach (Collider burn in flames)
+                    {
+                        string[] splitName = burn.name.Split(char.Parse("_"));
+                        string burnName = splitName[0];
+                        if (burnName == "Ennemy")
+                        {
+                            if (flamesDict.ContainsKey(burn.gameObject.GetInstanceID()))
+                            {
+
+                                Debug.Log("Already");
+                                /*flamesDict.Add(burn.gameObject, flameRecoverTime);
+                                Debug.Log("Added: " + burn.gameObject);*/
+
+                            }
+                            else
+                            {
+
+                                flamesDict.Add(burn.gameObject.GetInstanceID(), flameRecoverTime);
+                                DealDamage(false, burn.gameObject);
+                                Debug.Log(burn.GetInstanceID());
+                            }
+
+                        }
+
+
+
+
+
+
+                        /*string[] splitName = burn.name.Split(char.Parse("_"));
+                        string burnName = splitName[0];
+                        if (burnName == "Ennemy")
+                        {
+                            DealDamage(false, burn.gameObject);
+                        }*/
+
+
+
+
+                    }
 
                 }
 
+
             }
-            
+            else
+            {
+                flame.SetActive(false);
+            }
 
-        } else
-        {
-            flame.SetActive(false);
+
+            characters[characterIndex].transform.position = transform.position;
+
         }
-        
 
-        characters[characterIndex].transform.position = transform.position;
 
-        
-        
+
 
     }
 
