@@ -25,7 +25,7 @@ public class T4_PlayerController : MonoBehaviour
     public float maxLife;
     public float currentLife;
 
-    GameManager gameManager;
+    T4_GameManager gameManager;
 
     [Header("CharactersDamageValue")]
     public float joieFirstDamageValue;
@@ -37,7 +37,9 @@ public class T4_PlayerController : MonoBehaviour
 
     #region Audio
     public GameObject vomiShootAudio;
+    public GameObject vomiShootSplashAudio;
     public GameObject vomiShootSpeAudio;
+    public GameObject vomiShootSplashSpeAudio;
 
     public GameObject colèreFlameAudio;
     #endregion
@@ -46,7 +48,7 @@ public class T4_PlayerController : MonoBehaviour
     {
         playerMovement = FindObjectOfType<T4_PlayerMovement>();
         flame.SetActive(false);
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<T4_GameManager>();
     }
 
 
@@ -299,6 +301,7 @@ public class T4_PlayerController : MonoBehaviour
             go.SendMessage("getName", "Player");
             //GetComponent<T4_PlayerMovement>().isFirstAttack = false;
             vomiShootSpeAudio.SetActive(true);//AUDIO//
+            vomiShootSplashSpeAudio.SetActive(true);//AUDIO//
         } else
         {
             bulletPositionOffset = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z + 1);
@@ -306,6 +309,7 @@ public class T4_PlayerController : MonoBehaviour
             GameObject go = Instantiate(bullet, transform.position, bulletRotation);
             go.SendMessage("getName", "Player");
             vomiShootAudio.SetActive(true);//AUDIO//
+            vomiShootSplashSpeAudio.SetActive(true);//AUDIO//
         }
         
         
