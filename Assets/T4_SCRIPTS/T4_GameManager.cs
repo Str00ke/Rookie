@@ -34,6 +34,7 @@ public class T4_GameManager : MonoBehaviour
     public Image decount;
     Text scoreTxt;
     public bool hasWin;
+    public bool hasFinished;
 
 
     public GameObject wavesHolder;

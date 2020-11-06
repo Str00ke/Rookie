@@ -407,7 +407,8 @@ public class T4_PlayerController : MonoBehaviour
 
         if (currentLife <= 0)
         {
-            Dead();
+            Invoke("Dead", 1.0f);
+            
         }
 
     }

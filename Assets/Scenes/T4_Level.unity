@@ -237,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 72497400}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -12.1}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 1505916330}
@@ -309,6 +309,7 @@ MonoBehaviour:
   maxLife: 3
   currentLife: 0
   invincibilityTime: 5
+  isInvicible: 0
   charaImg: {fileID: 1958832270}
   charaWaitToChange: 1.5
   joieFirstDamageValue: 2
@@ -1736,6 +1737,9 @@ MonoBehaviour:
   PausePanel: {fileID: 546243684}
   loseScore: {fileID: 1944725928}
   winScore: {fileID: 2119021359}
+  decountImgs: []
+  decount: {fileID: 0}
+  hasWin: 0
   wavesHolder: {fileID: 1450481286}
   isPaused: 0
 --- !u!1 &443848786
@@ -1946,7 +1950,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &546243685
 RectTransform:
   m_ObjectHideFlags: 0
