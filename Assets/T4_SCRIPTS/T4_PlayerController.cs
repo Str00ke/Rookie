@@ -29,7 +29,7 @@ public class T4_PlayerController : MonoBehaviour
     public int currentLife;
 
     public float invincibilityTime;
-    bool isInvicible = false;
+    public bool isInvicible = false;
 
     T4_GameManager gameManager;
 
@@ -239,6 +239,21 @@ public class T4_PlayerController : MonoBehaviour
 
             characters[characterIndex].transform.position = transform.position;
 
+            if (isInvicible)
+            {
+                for (int i = 0; i < lifeContainer.transform.childCount; i++)
+                {
+                    lifeContainer.transform.GetChild(i).GetComponent<Image>().color = new Color(lifeContainer.transform.GetChild(i).GetComponent<Image>().color.r, lifeContainer.transform.GetChild(i).GetComponent<Image>().color.g, lifeContainer.transform.GetChild(i).GetComponent<Image>().color.b, 0.25f);
+                }
+            } else
+            {
+                for (int i = 0; i < lifeContainer.transform.childCount; i++)
+                {
+                    lifeContainer.transform.GetChild(i).GetComponent<Image>().color = new Color(lifeContainer.transform.GetChild(i).GetComponent<Image>().color.r, lifeContainer.transform.GetChild(i).GetComponent<Image>().color.g, lifeContainer.transform.GetChild(i).GetComponent<Image>().color.b, 1f);
+                }
+            }
+
+
         }
 
 
@@ -338,7 +353,7 @@ public class T4_PlayerController : MonoBehaviour
         {
             if (i != characterIndex)
             {
-                charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(charaImg.transform.GetChild(i).GetComponent<Image>().color.r, charaImg.transform.GetChild(i).GetComponent<Image>().color.g, charaImg.transform.GetChild(i).GetComponent<Image>().color.b, 0.5f);
+                charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(charaImg.transform.GetChild(i).GetComponent<Image>().color.r, charaImg.transform.GetChild(i).GetComponent<Image>().color.g, charaImg.transform.GetChild(i).GetComponent<Image>().color.b, 0.25f);
             } else
             {
                 charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(charaImg.transform.GetChild(i).GetComponent<Image>().color.r, charaImg.transform.GetChild(i).GetComponent<Image>().color.g, charaImg.transform.GetChild(i).GetComponent<Image>().color.b, 1);

@@ -257,7 +257,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
     void Stomp()
     {
-
+        GetComponent<T4_PlayerController>().isInvicible = true;
         Instantiate(explo,transform.position,transform.rotation,null) ;
 
         Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
@@ -330,6 +330,7 @@ public class T4_PlayerMovement : MonoBehaviour
         }
         GetComponent<T4_PlayerController>().DealDamage(true, hit.gameObject);
         yield return new WaitForSeconds(0.1f);
+        GetComponent<T4_PlayerController>().isInvicible = false;
     }
 
     IEnumerator Dash(int distValue, Vector3 direction, Collider hit)
