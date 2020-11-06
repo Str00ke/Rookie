@@ -23,6 +23,11 @@ public class T4_PlayerMovement : MonoBehaviour
     public float flameXOffset;
     public float flameZOffset;
 
+    public float frontDashDistance;
+    public float coeffFrontDashSpeed;
+    public float backDashDistance;
+    public float coeffBackDashSpeed;
+
     public bool isFirstAttack;
     T4_PlayerController charaPool;
 
@@ -359,12 +364,12 @@ public class T4_PlayerMovement : MonoBehaviour
 
 
 
-                while (distance > (distValue - (distValue / 3)))
+                while (distance > (distValue - (distValue / frontDashDistance)))
                 {
 
                     transform.position = Vector3.Lerp(
                     transform.position, direction,
-                    Time.deltaTime * speed / distance);
+                    Time.deltaTime * (speed * coeffFrontDashSpeed) / distance);
                     distance = Vector3.Distance(transform.position, direction);
                     yield return new WaitForSeconds(0.01f);
                 }
@@ -412,11 +417,11 @@ public class T4_PlayerMovement : MonoBehaviour
             else
             {
                 
-                for (float i = 0; i < 6; i += 0.3f)
+                for (float i = 0; i < 6; i += backDashDistance)
                 {
                     transform.position = Vector3.Lerp(
                     transform.position, direction,
-                    Time.deltaTime * (speed / 3) / distance);
+                    Time.deltaTime * ((speed / 3) * coeffBackDashSpeed) / distance);
                     distance = Vector3.Distance(transform.position, direction);
                     yield return new WaitForSeconds(0.01f);
                 }
