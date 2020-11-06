@@ -33,8 +33,8 @@ public class T4_GameManager : MonoBehaviour
     public Sprite[] decountImgs;
     public Image decount;
     Text scoreTxt;
-    public bool hasWin;
-    public bool hasFinished;
+    public bool hasWin = false;
+    public bool hasFinished = false;
 
 
     public GameObject wavesHolder;
@@ -122,14 +122,19 @@ public class T4_GameManager : MonoBehaviour
     
     IEnumerator Decount()
     {
-
+        yield return new WaitForSeconds(1.0f);
+        decount.gameObject.SetActive(true);
         for (int i = 0; i < decountImgs.Length; i++)
-        {               
+        {
+            decount.gameObject.SetActive(true);
             decount.sprite = decountImgs[i];
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(0.5f);
+            decount.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return new WaitForSeconds(1.0f);
+        decount.gameObject.SetActive(false);
         CreateWave();
     }
 
