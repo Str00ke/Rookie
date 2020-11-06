@@ -156,6 +156,7 @@ public class T4_GameManager : MonoBehaviour
 
     void Win()
     {
+        hasFinished = true;
         hasWin = true;
         winScore.GetComponent<Text>().text = score.ToString();
         stuff.SetActive(false);
@@ -166,6 +167,7 @@ public class T4_GameManager : MonoBehaviour
 
     public void Lose() 
     {
+        hasFinished = true;
         hasWin = false;
         loseScore.GetComponent<Text>().text = score.ToString();
         stuff.SetActive(false);
