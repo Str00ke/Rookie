@@ -56,7 +56,7 @@ public class T4_Menu : MonoBehaviour
         appAnim.SetTrigger("Open");
         yield return new WaitForSeconds(3.0f);
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("SampleScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("T4_Level");
 
     }
 
