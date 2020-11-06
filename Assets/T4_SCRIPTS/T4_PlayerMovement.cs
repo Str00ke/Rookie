@@ -23,6 +23,8 @@ public class T4_PlayerMovement : MonoBehaviour
     public float flameXOffset;
     public float flameZOffset;
 
+    public float maxDist;
+
     public float frontDashDistance;
     public float coeffFrontDashSpeed;
     public float backDashDistance;
@@ -291,18 +293,16 @@ public class T4_PlayerMovement : MonoBehaviour
             {
                 playerHit = true;
                 GetComponent<T4_PlayerController>().DealDamage(false, hit.gameObject);
+                if (playerHit == true)
+                {
+                    Instantiate(CàCHit, hit.transform.position, transform.rotation, null);//AUDIO//
+                }
             }
 
-            if (playerHit == true)
-            {
-                Instantiate(CàCHit, transform.position, transform.rotation, null);//AUDIO//
-            }
-            else
+            if (playerHit == false)
             {
                 missAudio.SetActive(true);
             }
-               
-
         }
 
         yield return new WaitForSeconds(0.5f);
@@ -314,7 +314,6 @@ public class T4_PlayerMovement : MonoBehaviour
     IEnumerator StompKnockback(float distance, GameObject hit)
     {
         //Debug.Log(hit.gameObject);
-        float maxDist = 5.0f;
         float actualDist = distance;
         float speed = -(actualDist - maxDist);
         Vector3 lockPos = transform.position;
@@ -388,7 +387,7 @@ public class T4_PlayerMovement : MonoBehaviour
                     yield return new WaitForSeconds(0.01f);
                 }
                 GetComponent<T4_PlayerController>().DealDamage(true, hit.gameObject);
-                Instantiate(CàCSpeHit, transform.position, transform.rotation, null);//AUDIO//
+                Instantiate(CàCSpeHit, hit.transform.position, transform.rotation, null);//AUDIO//
             }
             else
             {

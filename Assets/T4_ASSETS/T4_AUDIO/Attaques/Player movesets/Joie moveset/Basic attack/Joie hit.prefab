@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4240824520141954500}
   - component: {fileID: 8200490215101015884}
   - component: {fileID: -1241815179990608455}
+  - component: {fileID: 8405344602855839200}
   m_Layer: 0
   m_Name: Joie hit
   m_TagString: Untagged
@@ -144,3 +145,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f5436e1cb6ad54d47957ca4c1ed6a9e5, type: 3}
   - {fileID: 8300000, guid: 8a4eb979b0916bf4ebf670f8cc5716ad, type: 3}
   - {fileID: 8300000, guid: d27cff7abeba4af45a927945704ef52f, type: 3}
+--- !u!114 &8405344602855839200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6818833997027616079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a5173a57953584a9fc3461877c5a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

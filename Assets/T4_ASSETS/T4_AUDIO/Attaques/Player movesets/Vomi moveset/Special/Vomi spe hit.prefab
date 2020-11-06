@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1499466628126675870}
   - component: {fileID: 8380716257234627986}
-  - component: {fileID: 3349820243813250144}
+  - component: {fileID: 2803405649249456327}
   m_Layer: 0
   m_Name: Vomi spe hit
   m_TagString: Untagged
@@ -46,7 +46,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -128,7 +128,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3349820243813250144
+--- !u!114 &2803405649249456327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,8 +137,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 322953037295486191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44b91f5e5248fcf459efcd245b5dee0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 90a5173a57953584a9fc3461877c5a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: af5dfcb323fb55044b54b2c73ce93273, type: 3}

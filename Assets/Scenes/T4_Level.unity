@@ -262,22 +262,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab9fea96d1b4104ba785de5ea1ed523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 8
   isCouroutineInactive: 0
   cacPos: {fileID: 241501817}
   anim: {fileID: 0}
   dirMouse: {fileID: 760825617}
   flameXOffset: 3
   flameZOffset: 3
+  maxDist: 15
   frontDashDistance: 1.5
   coeffFrontDashSpeed: 2
-  backDashDistance: 0.08
+  backDashDistance: 0.3
   coeffBackDashSpeed: 3
   isFirstAttack: 0
   explo: {fileID: 5854143886354953718, guid: 1246cd1b6e6d0c2478ac17a0472a1bb0, type: 3}
-  "C\xE0CHit": {fileID: 6818833997027616079, guid: 59eeb8d86c556284291e647217d20b0c,
+  "C\xE0CHit": {fileID: 5854143886354953718, guid: 8685629469367a24b9171587da479d1a,
     type: 3}
-  "C\xE0CSpeHit": {fileID: 2054944466586955947, guid: fc3fb5705ad862b4b971b82198f55b4e,
+  "C\xE0CSpeHit": {fileID: 5854143886354953718, guid: 6f40c5bf13200974da98372f2f778143,
     type: 3}
   speAudio: {fileID: 1138352833}
   missAudio: {fileID: 596824003}
@@ -309,7 +310,7 @@ MonoBehaviour:
   currentLife: 0
   invincibilityTime: 5
   charaImg: {fileID: 1958832270}
-  charaWaitToChange: 1
+  charaWaitToChange: 1.5
   joieFirstDamageValue: 2
   joieBaseDamageValue: 1
   colereFirstDamageValue: 1

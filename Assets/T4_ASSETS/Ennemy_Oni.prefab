@@ -260,7 +260,7 @@ MonoBehaviour:
     type: 3}
   sword: {fileID: 5485632244502690697}
   damageDeal: 1
-  MaxLife: 1
+  MaxLife: 10
   currentLife: 0
   stunTime: 0
   gameManager: {fileID: 0}
@@ -279,7 +279,7 @@ MonoBehaviour:
   alienChargeAudio: {fileID: 0}
   alienShootAudio: {fileID: 0}
   alienDeathAudio: {fileID: 0}
-  OniSpeed: 3
+  OniSpeed: 7
   OniMinDistance: 5
   OniTimeBeforeAttack: 1
   OniAttackCooldown: 3

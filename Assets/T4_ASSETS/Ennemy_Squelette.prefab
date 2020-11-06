@@ -124,7 +124,7 @@ MonoBehaviour:
     type: 3}
   sword: {fileID: 0}
   damageDeal: 1
-  MaxLife: 1
+  MaxLife: 3
   currentLife: 0
   stunTime: 3
   gameManager: {fileID: 0}
@@ -154,7 +154,7 @@ MonoBehaviour:
   oniHitAudio: {fileID: 0}
   oniMissAudio: {fileID: 0}
   oniDeathAudio: {fileID: 0}
-  SqueletteSpeed: 5
+  SqueletteSpeed: 10
   SqueletteMinDistance: 3.5
   SqueletteTimeBeforeAttack: 0.5
   SqueletteAttackCooldown: 1

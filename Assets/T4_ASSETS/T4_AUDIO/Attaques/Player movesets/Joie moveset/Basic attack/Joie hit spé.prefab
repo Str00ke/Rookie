@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 586444309121311928}
   - component: {fileID: 5479833343971517158}
-  - component: {fileID: 6285880226364594315}
+  - component: {fileID: 4392602349074584640}
   m_Layer: 0
   m_Name: "Joie hit sp\xE9"
   m_TagString: Untagged
@@ -43,7 +43,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: eda475094e5739a49aeddd893127e11c, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -128,7 +128,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6285880226364594315
+--- !u!114 &4392602349074584640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,8 +137,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2054944466586955947}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44b91f5e5248fcf459efcd245b5dee0d, type: 3}
+  m_Script: {fileID: 11500000, guid: 90a5173a57953584a9fc3461877c5a47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips:
-  - {fileID: 8300000, guid: eda475094e5739a49aeddd893127e11c, type: 3}

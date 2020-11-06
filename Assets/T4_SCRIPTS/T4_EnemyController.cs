@@ -607,7 +607,7 @@ public class T4_EnemyController : MonoBehaviour
 
     public void TakeDamage(float damageValue)
     {
-        currentLife -= damageDeal;
+        currentLife -= damageValue;
         
         Debug.Log("Enemy life: " + currentLife);
 
@@ -667,7 +667,7 @@ public class T4_EnemyController : MonoBehaviour
             FindObjectOfType<T4_GameManager>().AddScore(squelettePoints);
         }
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(2.25f);
         Destroy(gameObject);
     }
 

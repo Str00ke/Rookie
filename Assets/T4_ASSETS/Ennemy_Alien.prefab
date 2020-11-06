@@ -169,20 +169,21 @@ MonoBehaviour:
   bulletDir: {fileID: 8055896539446185020}
   sword: {fileID: 0}
   damageDeal: 1
-  MaxLife: 1
+  MaxLife: 5
   currentLife: 0
   stunTime: 0
+  gameManager: {fileID: 0}
   squelettePoints: 0
   alienPoints: 20
   oniPoints: 0
-  AlienSpeed: 3
-  AlienMinDistance: 9
+  AlienSpeed: 5
+  AlienMinDistance: 15
   AlienTimeBeforeAttack: 1
   AlienAttackCooldown: 1
   AlienShotsNbrBtwChecks: 2
   AlienBtwShots: 5
   AlienBtwReload: 1
-  AlienMaxDist: 15
+  AlienMaxDist: 20
   AlienScale: 2.5
   alienChargeAudio: {fileID: 5219107360087566666}
   alienShootAudio: {fileID: 7058197920831384610}
