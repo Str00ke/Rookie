@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
+using TreeEditor;
 using UnityEngine;
 
 public class T4_PlayerMovement : MonoBehaviour
@@ -25,6 +26,12 @@ public class T4_PlayerMovement : MonoBehaviour
     public bool isFirstAttack;
     T4_PlayerController charaPool;
 
+    public GameObject explo;
+    public GameObject CàCHit;
+    public GameObject CàCSpeHit;
+
+    public GameObject speAudio;
+    public GameObject missAudio;
 
     private void Awake()
     {
@@ -244,7 +251,7 @@ public class T4_PlayerMovement : MonoBehaviour
     void Stomp()
     {
 
-        
+        Instantiate(explo,transform.position,transform.rotation,null) ;
 
         Collider[] stompCollider = Physics.OverlapSphere(transform.position, 5.0f);
         foreach (Collider hit in stompCollider)
@@ -268,6 +275,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
     IEnumerator CacHit()
     {
+        bool playerHit = false;
 
         Collider[] CacCollider = Physics.OverlapSphere(cacPos.transform.position, 2.0f);
         foreach (Collider hit in CacCollider)
@@ -276,9 +284,18 @@ public class T4_PlayerMovement : MonoBehaviour
             string hitName = splitName[0];
             if (hitName == "Ennemy")
             {
+                playerHit = true;
                 GetComponent<T4_PlayerController>().DealDamage(false, hit.gameObject);
             }
 
+            if (playerHit == true)
+            {
+                Instantiate(CàCHit, transform.position, transform.rotation, null);//AUDIO//
+            }
+            else
+            {
+                missAudio.SetActive(true);
+            }
                
 
         }
@@ -313,8 +330,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
     IEnumerator Dash(int distValue, Vector3 direction, Collider hit)
     {
-        
-        //Debug.Log(hit.gameObject.name);
+       //Debug.Log(hit.gameObject.name);
         isFirstAttack = false;
 
         int speed;
@@ -337,6 +353,7 @@ public class T4_PlayerMovement : MonoBehaviour
 
         if (charaPool.characterIndex == 0)
         {
+            speAudio.SetActive(true);//AUDIO//
             if (distValue > 10 && hitName != "Ennemy")
             {
 
@@ -366,6 +383,7 @@ public class T4_PlayerMovement : MonoBehaviour
                     yield return new WaitForSeconds(0.01f);
                 }
                 GetComponent<T4_PlayerController>().DealDamage(true, hit.gameObject);
+                Instantiate(CàCSpeHit, transform.position, transform.rotation, null);//AUDIO//
             }
             else
             {
