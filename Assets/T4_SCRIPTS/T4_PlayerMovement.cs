@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
-using TreeEditor;
 using UnityEngine;
 
 public class T4_PlayerMovement : MonoBehaviour
@@ -92,7 +91,7 @@ public class T4_PlayerMovement : MonoBehaviour
         float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg - 90;
 
 
-        if (movHorizontal + movVertical == 0)
+        if (movHorizontal == 0 && movVertical == 0)
         {
             anim.SetBool("isWalking", false);
         } else

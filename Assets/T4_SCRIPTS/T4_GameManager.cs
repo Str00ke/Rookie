@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class T4_GameManager : MonoBehaviour
 {
@@ -19,15 +21,28 @@ public class T4_GameManager : MonoBehaviour
     GameObject[] enemiesToSpawn;
     public GameObject enemiesHolder;
     public GameObject[] enemiesPool;
+    public GameObject stuff;
+    public GameObject loosePanel;
+    public GameObject winPanel;
+    public GameObject lifeContainer;
+    public GameObject charaContainer;
     GameObject UI;
-    GameObject PausePanel;
+    public GameObject PausePanel;
+    public GameObject loseScore;
+    public GameObject winScore;
+    Text scoreTxt;
+
+
+    public GameObject wavesHolder;
+    int wave = 0;
+    int score = 0;
 
     public bool isPaused;
 
     private void Awake()
     {
         UI = GameObject.Find("_UI");
-        PausePanel = UI.gameObject.transform.GetChild(0).gameObject;
+        //PausePanel = UI.gameObject.transform.GetChild(0).gameObject;
     }
 
     void Start()
@@ -38,15 +53,16 @@ public class T4_GameManager : MonoBehaviour
         player = player.gameObject;
         coeffEnemiesInRound = round;
         //CreateRound();
+        CreateWave();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonUp("Fire2"))
+        /*if (Input.GetButtonUp("Fire2"))
         {
             EndRound();
-        }
+        }*/
 
         //Debug.Log(test);
         test += 1 / test * 0.75f;
@@ -59,6 +75,11 @@ public class T4_GameManager : MonoBehaviour
         }
 
         
+        if (wavesHolder.transform.GetChild(wave).gameObject.transform.childCount == 0)
+        {
+            EndWave();
+        }
+
 
     }
 
@@ -75,7 +96,63 @@ public class T4_GameManager : MonoBehaviour
         }
     }
 
-    void FirstRound()
+
+    public void AddScore(int value)
+    {
+        score += value * (wave + 1);
+        Debug.Log(score);
+    }
+
+    public void LoadScene(string name)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(name);
+
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    void CreateWave()
+    {
+       Debug.Log(wave);
+       GameObject waveToCreate = wavesHolder.transform.GetChild(wave).gameObject;
+       waveToCreate.SetActive(true);
+    }
+
+
+    void EndWave()
+    {
+        if (wave >= 4)
+        {
+            Win();
+        } else
+        {
+            wave++;
+            CreateWave();
+        }
+    }
+
+    void Win()
+    {
+        winScore.GetComponent<Text>().text = score.ToString();
+        stuff.SetActive(false);
+        lifeContainer.SetActive(false);
+        charaContainer.SetActive(false);
+        winPanel.SetActive(true);
+    }
+
+    public void Lose() 
+    {
+        loseScore.GetComponent<Text>().text = score.ToString();
+        stuff.SetActive(false);
+        lifeContainer.SetActive(false);
+        charaContainer.SetActive(false);
+        loosePanel.SetActive(true);
+    }
+
+    /*void FirstRound()
     {
 
     }
@@ -83,7 +160,7 @@ public class T4_GameManager : MonoBehaviour
     void CreateRound()
     {
         
-        /*if (round == 0)
+        ///*if (round == 0)
         {
             enemiesToSpawn = new GameObject[1];
             enemiesToSpawn[0] = enemiesPool[0];
@@ -92,7 +169,7 @@ public class T4_GameManager : MonoBehaviour
         } else if (round == 1)
         {
             coeffEnemiesInRound = round;
-        }*/
+        //}
 
 
         //coeffEnemiesInRound = round;
@@ -179,6 +256,6 @@ public class T4_GameManager : MonoBehaviour
         }
         round++;
         CreateRound();
-    }
+    }*/
 
 }

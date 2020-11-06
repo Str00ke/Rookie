@@ -32,6 +32,11 @@ public class T4_EnemyController : MonoBehaviour
     float time = 0;
     bool isStun = false;
 
+    public T4_GameManager gameManager;
+    public int squelettePoints;
+    public int alienPoints;
+    public int oniPoints;
+
     [Header("Alien")]
     public float AlienSpeed;
     public float AlienMinDistance;
@@ -96,6 +101,7 @@ public class T4_EnemyController : MonoBehaviour
         player = FindObjectOfType<T4_PlayerController>().gameObject;
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        gameManager = GetComponent<T4_GameManager>();
 
         currentLife = MaxLife;
 
@@ -108,7 +114,6 @@ public class T4_EnemyController : MonoBehaviour
     
     void Update()
     {
-        Debug.Log(player.transform.position);
 
         Vector3 player_pos = player.transform.position;
 
@@ -351,6 +356,10 @@ public class T4_EnemyController : MonoBehaviour
             anim.SetBool("isCharging", true);
             yield return new WaitForSeconds(AlienBtwReload);
             distance = Vector3.Distance(player.transform.position, transform.position);
+            if (isDead)
+            {
+                break;
+            }
         }
 
         anim.SetBool("isCharging", false);
@@ -637,21 +646,28 @@ public class T4_EnemyController : MonoBehaviour
     IEnumerator Death()
     {
         isDead = true;
+        transform.GetComponent<Rigidbody>().freezeRotation = true;
+        transform.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+
         anim.SetTrigger("Death");
         if (enemyName == "Oni")//NAME CHECK//
         {
             oniDeathAudio.SetActive(true);//AUDIO//
+            FindObjectOfType<T4_GameManager>().AddScore(oniPoints);
         }
         else if (enemyName == "Alien")
         {
             alienDeathAudio.SetActive(true);//AUDIO//
+            FindObjectOfType<T4_GameManager>().AddScore(alienPoints);
         }
         else if (enemyName == "Squelette")
         {
             squeletteDeathAudio.SetActive(true);//AUDIO//
+            FindObjectOfType<T4_GameManager>().AddScore(squelettePoints);
         }
 
-            yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(5.0f);
         Destroy(gameObject);
     }
 

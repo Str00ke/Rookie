@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class T4_PlayerController : MonoBehaviour
 {
@@ -18,14 +19,24 @@ public class T4_PlayerController : MonoBehaviour
 
     public GameObject dirMouse;
 
+    public GameObject lifeContainer;
+
     float reloadTime = 2.0f;
 
     float firstAttackDamageDeal;
     float attackDamageDeal;
-    public float maxLife;
-    public float currentLife;
+    public int maxLife;
+    public int currentLife;
+
+    public float invincibilityTime;
+    bool isInvicible = false;
 
     T4_GameManager gameManager;
+
+    public GameObject charaImg;
+    bool isCharaLocked = false;
+    public float charaWaitToChange;
+    float maxTime;
 
     [Header("CharactersDamageValue")]
     public float joieFirstDamageValue;
@@ -75,6 +86,16 @@ public class T4_PlayerController : MonoBehaviour
 
         characters[characterIndex].SetActive(true);
         reloadTime -= reloadTime;
+
+
+
+        for (int i = 1; i < 3; i++)
+        {
+            charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(charaImg.transform.GetChild(i).GetComponent<Image>().color.r, charaImg.transform.GetChild(i).GetComponent<Image>().color.g, charaImg.transform.GetChild(i).GetComponent<Image>().color.b, 0.5f);
+        }
+
+        maxTime = charaWaitToChange;
+
     }
 
     // Update is called once per frame
@@ -84,22 +105,43 @@ public class T4_PlayerController : MonoBehaviour
         if (!gameManager.isPaused)
         {
 
-            Debug.Log(flamesDict.ToList().Count);
 
             if (reloadTime > 0)
             {
                 reloadTime -= Time.deltaTime;
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ChangeCharacter(1);
-            }
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (!isCharaLocked)
             {
-                ChangeCharacter(-1);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    ChangeCharacter(1);
+                }
+
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    ChangeCharacter(-1);
+                }
+            } else
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(0.25f, 0.25f, 0.25f, charaImg.transform.GetChild(i).GetComponent<Image>().color.a);
+                }
+
+                charaWaitToChange -= Time.deltaTime;
+                if (charaWaitToChange <= 0)
+                {
+                    isCharaLocked = false;
+                    charaWaitToChange = maxTime;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(1, 1, 1, charaImg.transform.GetChild(i).GetComponent<Image>().color.a);
+                    }
+                }
             }
+            
 
             if (Input.GetButtonDown("Fire1") && characterIndex == 2)
             {
@@ -234,6 +276,9 @@ public class T4_PlayerController : MonoBehaviour
 
     void ChangeCharacter(int value)
     {
+
+        isCharaLocked = true;
+
         characters[characterIndex].SetActive(false);
 
         
@@ -288,6 +333,18 @@ public class T4_PlayerController : MonoBehaviour
             attackDamageDeal = vomiBaseDamageValue;
         }
 
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (i != characterIndex)
+            {
+                charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(charaImg.transform.GetChild(i).GetComponent<Image>().color.r, charaImg.transform.GetChild(i).GetComponent<Image>().color.g, charaImg.transform.GetChild(i).GetComponent<Image>().color.b, 0.5f);
+            } else
+            {
+                charaImg.transform.GetChild(i).GetComponent<Image>().color = new Color(charaImg.transform.GetChild(i).GetComponent<Image>().color.r, charaImg.transform.GetChild(i).GetComponent<Image>().color.g, charaImg.transform.GetChild(i).GetComponent<Image>().color.b, 1);
+            }
+        }
+
     }
 
     void Shoot(bool isFirstAttack)
@@ -319,18 +376,46 @@ public class T4_PlayerController : MonoBehaviour
     public void TakeDamage(float damageValue)
     {
         //currentLife -= damageValue;
+        
+        if (isInvicible)
+        {
+            return;
+        } else
+        {
+            StartCoroutine(Invincibility());
+        }
+
         currentLife--;
+        lifeContainer.transform.GetChild(currentLife).gameObject.SetActive(false);
+
         Debug.Log("Player life: " + currentLife);
 
         if (currentLife <= 0)
         {
-            Debug.Log("Dead");
+            Dead();
         }
 
     }
 
+
+    void Dead()
+    {
+        Debug.Log("Dead");
+        gameManager.Lose();
+    }
+
+    IEnumerator Invincibility()
+    {
+        isInvicible = true;
+        yield return new WaitForSeconds(invincibilityTime);
+        isInvicible = false;
+    }
+
+
     public void DealDamage(bool isFirstAttack, GameObject hit)
     {
+        Debug.Log(hit);
+
         if (isFirstAttack)
         {
             hit.GetComponent<T4_EnemyController>().TakeDamage(firstAttackDamageDeal);

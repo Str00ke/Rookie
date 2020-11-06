@@ -48,12 +48,13 @@ public class T4_BulletBehavior : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log(gameObject.name + " ,  " + shooterName);
         //rb.AddRelativeForce(new Vector3(0.0f, 0.0f, 5), ForceMode.VelocityChange);
         if (gameObject.name == "Missile(Clone)")
         {
             direction = Vector3.up;
         }
-        else if (gameObject.name == "Bullet(Clone)" && shooterName == "Ennemy")
+        else if (gameObject.name == "Bullet Alien(Clone)" && shooterName == "Ennemy")
         {
             direction = -Vector3.forward;
         } else

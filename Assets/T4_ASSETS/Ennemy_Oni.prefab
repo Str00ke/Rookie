@@ -259,10 +259,14 @@ MonoBehaviour:
   bulletDir: {fileID: 3835582489879785934, guid: 950bb10b93eca2c449f08de3259a718d,
     type: 3}
   sword: {fileID: 5485632244502690697}
-  damageDeal: 0
-  MaxLife: 0
+  damageDeal: 1
+  MaxLife: 1
   currentLife: 0
   stunTime: 0
+  gameManager: {fileID: 0}
+  squelettePoints: 0
+  alienPoints: 0
+  oniPoints: 30
   AlienSpeed: 0
   AlienMinDistance: 0
   AlienTimeBeforeAttack: 0
@@ -309,7 +313,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!135 &5485632245003524951
 SphereCollider:

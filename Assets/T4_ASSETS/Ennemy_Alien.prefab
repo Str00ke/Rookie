@@ -46,8 +46,9 @@ GameObject:
   - component: {fileID: 8055896539040341929}
   - component: {fileID: 8055896539040341930}
   - component: {fileID: 8055896539040341931}
+  - component: {fileID: 2746488525859757535}
   m_Layer: 0
-  m_Name: Enemy_Alien
+  m_Name: Ennemy_Alien
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +152,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.4800001
-  m_Center: {x: 0, y: 0.00000011920929, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8055896539040341931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,22 +168,25 @@ MonoBehaviour:
   bullet: {fileID: 7516688392345699040, guid: 013a472ee9f60fd4aaec274c82fba852, type: 3}
   bulletDir: {fileID: 8055896539446185020}
   sword: {fileID: 0}
-  damageDeal: 0
-  MaxLife: 0
+  damageDeal: 1
+  MaxLife: 1
   currentLife: 0
   stunTime: 0
+  squelettePoints: 0
+  alienPoints: 20
+  oniPoints: 0
   AlienSpeed: 3
   AlienMinDistance: 9
   AlienTimeBeforeAttack: 1
   AlienAttackCooldown: 1
-  AlienShotsNbrBtwChecks: 3
-  AlienBtwShots: 0.5
+  AlienShotsNbrBtwChecks: 2
+  AlienBtwShots: 5
   AlienBtwReload: 1
   AlienMaxDist: 15
   AlienScale: 2.5
   alienChargeAudio: {fileID: 5219107360087566666}
   alienShootAudio: {fileID: 7058197920831384610}
-  alienDeathAudio: {fileID: 0}
+  alienDeathAudio: {fileID: 8581297359828762335}
   OniSpeed: 0
   OniMinDistance: 0
   OniTimeBeforeAttack: 0
@@ -203,6 +207,22 @@ MonoBehaviour:
   SqueletteScale: 0
   squeletteHitAudio: {fileID: 0}
   squeletteDeathAudio: {fileID: 0}
+--- !u!54 &2746488525859757535
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055896539040341935}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!1001 &17048423387734835
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -292,6 +312,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9807005ddae1a6459a468c0abbfeff6, type: 3}
+--- !u!1 &8581297359828762335 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8586804320120774124, guid: c9807005ddae1a6459a468c0abbfeff6,
+    type: 3}
+  m_PrefabInstance: {fileID: 17048423387734835}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2127337050946220256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2141814246930682835, guid: c9807005ddae1a6459a468c0abbfeff6,
