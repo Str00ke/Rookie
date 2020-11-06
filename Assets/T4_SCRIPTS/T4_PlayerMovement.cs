@@ -9,6 +9,7 @@ public class T4_PlayerMovement : MonoBehaviour
     Rigidbody rb;
     float movHorizontal;
     float movVertical;
+    public float speed;
     Vector3 movement;
     public bool isCouroutineInactive = false;
     bool hasHit = false;
@@ -81,7 +82,7 @@ public class T4_PlayerMovement : MonoBehaviour
         movVertical = Input.GetAxis("Vertical");
         movHorizontal = Input.GetAxis("Horizontal");
         movement = new Vector3(movHorizontal, 0, movVertical);
-        rb.MovePosition(rb.position + movement * 5 * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
 
         Vector3 mouse_pos = Input.mousePosition;
 

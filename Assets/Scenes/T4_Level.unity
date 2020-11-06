@@ -300,17 +300,17 @@ MonoBehaviour:
   flameRecoverTime: 2
   dirMouse: {fileID: 760825617}
   lifeContainer: {fileID: 922122740}
-  maxLife: 40
+  maxLife: 3
   currentLife: 0
   invincibilityTime: 5
   charaImg: {fileID: 1958832270}
   charaWaitToChange: 1
-  joieFirstDamageValue: 20
-  joieBaseDamageValue: 10
-  colereFirstDamageValue: 20
-  colereBaseDamageValue: 10
-  vomiFirstDamageValue: 20
-  vomiBaseDamageValue: 10
+  joieFirstDamageValue: 2
+  joieBaseDamageValue: 1
+  colereFirstDamageValue: 1
+  colereBaseDamageValue: 1
+  vomiFirstDamageValue: 2
+  vomiBaseDamageValue: 2
   vomiShootAudio: {fileID: 977094280}
   vomiShootSplashAudio: {fileID: 659826122}
   vomiShootSpeAudio: {fileID: 946038646}
